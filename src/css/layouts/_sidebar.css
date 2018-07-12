@@ -1,0 +1,19 @@
+.sidebar {
+  background-color: var(--colour-bg);
+
+  &__title {
+    padding: 1.33rem;
+    background: var(--colour-main);
+    color: #fff;
+  }
+
+  &__item {
+    margin-bottom: 3px;
+    background-color: #fff;
+    padding: 10px 12px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: none;
+    font-size: 1.125rem;
+  }
+}

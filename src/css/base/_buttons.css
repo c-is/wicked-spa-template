@@ -1,0 +1,92 @@
+.icon {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: cover;
+  vertical-align: middle;
+
+  &--right {
+    margin-left: 8px;
+  }
+
+  &--left {
+    margin-right: 8px;
+  }
+}
+
+.button {
+  display: inline-block;
+
+  &--download {
+    width: 10.5rem;
+    height: 2.666rem;
+    padding: 0.6rem 0;
+    background-color: var(--colour-main);
+    border-radius: 2px;
+    box-shadow: 2px 2px 8px #2d3031;
+    border-bottom: none;
+    font-size: 1rem;
+    color: var(--colour-font);
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &--search {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin-left: 8px;
+  }
+}
+
+.button--close {
+  position: fixed;
+  top: 2.25rem;
+  right: 1rem;
+  width: 2.333rem;
+  height: 24px;
+  z-index: 99;
+  cursor: pointer;
+
+  i {
+    display: inline-block;
+    position: absolute;
+    top: center;
+    right: 0;
+    left: 0;
+    width: 24px;
+    height: 2px;
+    margin: auto;
+
+    &::before,
+    &::after {
+      @mixin pseudo 100%, 2px;
+
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      background-color: #fff;
+      transition: background-color 0.4s ease;
+    }
+
+    &::before {
+      transform: rotate(-45deg);
+    }
+
+    &::after {
+      transform: rotate(45deg);
+    }
+  }
+
+  &:hover {
+    i {
+      &::before,
+      &::after {
+        background-color: var(--colour-font);
+      }
+    }
+  }
+}
+
