@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import { TweenMax, Sine } from 'gsap';
 
-import Component from './Component';
+import DefaultPage from './DefaultPage';
 
-export default class About extends Component {
+export default class About extends DefaultPage {
   constructor($view, options) {
     super($view);
 

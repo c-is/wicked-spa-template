@@ -16,13 +16,22 @@ export default class ImageModal {
 
     this.events();
   }
+
   events() {
     $(this.view).on('click', '.js-image-modal', this.enlargeImage);
   }
+
   imageCollection(val) {
     this.images.push(val);
   }
-  hammerInit(view) {
+
+  discardEvents() {
+    this.el.removeEventListener('click', this.closeImage);
+    this.view.removeEventListener('click', this.enlargeImage);
+    this.hammer = null;
+  }
+
+  hammerInit = (view) => {
     this.hammer = new Hammer.Manager(view);
 
     const swipe = new Hammer.Swipe();
@@ -30,7 +39,8 @@ export default class ImageModal {
     this.hammer.add(swipe);
     this.hammer.on('swipeleft', this.swipeEvents);
     this.hammer.on('swiperight', this.swipeEvents);
-  }
+  };
+
   swipeEvents = (e) => {
     const number = (e.type === 'swipeleft') ? 1 : -1;
     const data = this.images[this.imageId + number] || '';
@@ -39,7 +49,8 @@ export default class ImageModal {
       this.imageId = this.imageId + number;
       this.setImage(data);
     }
-  }
+  };
+
   setImage = (data) => {
     TweenMax.to('.enlarge-image img', 0.6, {
       alpha: 0,
@@ -56,12 +67,8 @@ export default class ImageModal {
         });
       },
     });
-  }
-  discardEvents() {
-    this.el.removeEventListener('click', this.closeImage);
-    this.view.removeEventListener('click', this.enlargeImage);
-    this.hammer = null;
-  }
+  };
+
   closeImage = () => {
     $('body').removeClass('is-modal');
     TweenMax.to(this.el, 0.4, {
@@ -71,7 +78,8 @@ export default class ImageModal {
         this.view.removeChild(this.el);
       },
     });
-  }
+  };
+
   show = () => (
     new Promise((resolve) => {
       TweenMax.to(this.el, 0.4, {
@@ -81,7 +89,8 @@ export default class ImageModal {
         },
       });
     })
-  )
+  );
+
   showNav = () => {
     if (browserDetect().mobile && !this.activated) {
       TweenMax.to(this.nav, 0.5, {
@@ -97,7 +106,8 @@ export default class ImageModal {
 
       this.activated = true;
     }
-  }
+  };
+
   enlargeImage = (event) => {
     event.preventDefault();
 

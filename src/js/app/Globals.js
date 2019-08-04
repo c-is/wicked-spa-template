@@ -36,4 +36,18 @@ function browserDetect() {
   return browser;
 }
 
-export { getUrlVars, browserDetect };
+let namespace = '';
+let isInitialLoad = true;
+let isMenuOpen = false;
+let isLoaderActive = true;
+let isAjaxActive = true;
+
+export {
+  getUrlVars,
+  browserDetect,
+  namespace,
+  isInitialLoad,
+  isMenuOpen,
+  isLoaderActive,
+  isAjaxActive,
+};

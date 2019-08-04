@@ -4,13 +4,8 @@
   background-size: cover;
   vertical-align: middle;
 
-  &--right {
-    margin-left: 8px;
-  }
-
-  &--left {
-    margin-right: 8px;
-  }
+  &--right { margin-left: 8px; }
+  &--left { margin-right: 8px; }
 }
 
 .button {
@@ -71,13 +66,8 @@
       transition: background-color 0.4s ease;
     }
 
-    &::before {
-      transform: rotate(-45deg);
-    }
-
-    &::after {
-      transform: rotate(45deg);
-    }
+    &::before { transform: rotate(-45deg); }
+    &::after { transform: rotate(45deg); }
   }
 
   &:hover {

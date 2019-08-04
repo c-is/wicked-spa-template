@@ -6,8 +6,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-    <meta name="viewport" content="1120px">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %} | {{ project_name }}</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -39,19 +38,20 @@
 
     <header class="header" role="banner">
       <nav class="navigation" role="navigation">
+        <ul class="navigation__list">
+          
+        </ul>
       </nav>
-
-      {% if (id !== 'home') %}
-      <div class="breadcrumbs__container">
-        <div class="container">
-          <ul class="breadcrumbs">
-            {% block breadcrumbs %}
-            {% endblock %}
-          </ul>
-        </div>
-      </div>
-      {% endif %}
     </header>
+
+    {% if (id !== 'home') %}
+    <div class="breadcrumbs">
+      <ul class="breadcrumbs__list">
+        {% block breadcrumbs %}
+        {% endblock %}
+      </ul>
+    </div>
+    {% endif %}
 
     <div class="wrapper" id="wrapper">
       {% block content %} {% endblock %}

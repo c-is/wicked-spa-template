@@ -1,5 +1,6 @@
-
-export default class Model {
-  Home = () => '../data/articles.json';
-  Article = slag => `../data/${slag}.json`;
+const model = {
+  Home: () => '../data/articles.json',
+  Article: slag => `../data/${slag}.json`,
 }
+
+export default model;

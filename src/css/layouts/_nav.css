@@ -6,6 +6,6 @@
     max-width: 1060px;
   }
 
-  li { position: relative; }
+  &__item { position: relative; }
 }
 

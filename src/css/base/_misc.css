@@ -1,17 +1,17 @@
 ::selection {
-	background:#FDF8F2;
-	color:#666;
-	text-shadow:none;
+	background: #FDF8F2;
+	color: #666;
+	text-shadow: none;
 }
 
 ::-moz-selection {
-	background:#FDF8F2;
-	color:#666;
-	text-shadow:none;
+	background: #FDF8F2;
+	color: #666;
+	text-shadow: none;
 }
 
 ::-webkit-selection {
-	background:#FDF8F2;
-	color:#666;
-	text-shadow:none;
+	background: #FDF8F2;
+	color: #666;
+	text-shadow: none;
 }

@@ -1,6 +1,6 @@
-import Component from './Component';
+import DefaultPage from './DefaultPage';
 
-export default class Article extends Component {
+export default class Article extends DefaultPage {
   constructor($view, options) {
     super($view);
 
@@ -10,11 +10,11 @@ export default class Article extends Component {
     this.render();
   }
 
+  events() {}
+
   render() {
     this.events();
   }
-
-  events() {}
 }
 
-Component.Article = Article;
+// Component.Article = Article;

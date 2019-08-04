@@ -25,17 +25,13 @@
   padding-bottom: 3rem;
   z-index: 2;
 
-  &--home {
-    padding-bottom: 0;
-  }
+  &--home { padding-bottom: 0; }
 }
 
 .section {
   padding: calc(var(--content-space) / 1.333) calc(var(--content-space) / 2.5);
 
-  &--alt {
-    background-color: var(--colour-bg);
-  }
+  &--alt { background-color: var(--colour-bg); }
 
   &--content {
     margin-top: 2rem;
@@ -43,9 +39,7 @@
     background-color: #fff;
   }
 
-  &__inner {
-    padding-top: 0;
-  }
+  &__inner { padding-top: 0; }
 }
 
 .page-title {
@@ -98,11 +92,6 @@
   transition: opacity 0.4s ease;
   opacity: 0;
 
-  &.is-animated {
-    opacity: 1;
-  }
-
-  &.is-loading {
-    opacity: 0 !important;
-  }
+  &.is-animated { opacity: 1; }
+  &.is-loading { opacity: 0 !important; }
 }

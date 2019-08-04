@@ -3,5 +3,6 @@ module.exports = {
   url: 'https://',
   project: 'project_name',
   description: "Wicked Framework",
-  keywords: "wicked framework, es6, webpack"
+  keywords: "wicked framework, es6, webpack",
+  trackingID: 'UA-xxxxxxxx', // Google Analytics Site's ID
 };

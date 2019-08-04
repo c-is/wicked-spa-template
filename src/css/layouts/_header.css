@@ -55,7 +55,7 @@
     }
   }
 
-  li {
+  &__item {
     display: inline-block;
     margin-right: 0.25rem;
 

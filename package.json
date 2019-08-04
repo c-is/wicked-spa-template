@@ -104,8 +104,7 @@
   "babel": {
     "presets": [
       "latest",
-      "stage-0",
-      "react"
+      "stage-0"
     ],
     "plugins": [
       "transform-runtime",
@@ -121,7 +120,9 @@
       "import/no-extraneous-dependencies": "off"
     },
     "env": {
-      "browser": true
+      "browser": true,
+      "node": true,
+      "es6": true
     }
   },
   "scripts": {

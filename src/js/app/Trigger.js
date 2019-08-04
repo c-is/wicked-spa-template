@@ -1,19 +1,13 @@
 import $ from 'jquery';
-import { TweenMax } from 'gsap';
-import 'gsap/ScrollToPlugin';
 import createHistory from 'history/createBrowserHistory';
 
 const History = createHistory();
-
-const TIMING_IN = 1;
-const TIMING_OUT = 0.4;
+const TIME_LIMIT = 5000;
+const PAGE_TITLE = 'xxx';
 
 
 export default class Trigger {
-  static TIME_LIMIT = 5000;
   static CONTENT_SELECTOR = '#container';
-  static HEADER = '.header';
-  static FOOTER = '.footer';
 
   static back(url) {
     if (history.length > 2 || document.referrer.length > 0) {
@@ -31,74 +25,32 @@ export default class Trigger {
     return this.position;
   }
 
-  static setHistory = (e) => {
-    const baseURL = (e) ? $(e.currentTarget).attr('href').replace(`http://${window.location.host}`, '') : window.location.pathname;
-    const oldTitle = (history.state) ? history.state.title : '';
-    const pageTitle = (e) ? $(e.currentTarget).attr('data-title') : $(['data-page-title']).data('data-page-title');
-    const path = baseURL.replace(/\//g, '');
+  static setHistory = (e, back = false) => {
+    const $titleElement = back ? $(['data-page-title']) : $(e.currentTarget);
+    const baseURL = back ? window.location.pathname : $(e.currentTarget).attr('href').replace(`http://${window.location.host}`, '');
+    const title = back ? $titleElement.attr('data-title') : $titleElement.data('data-page-title');
+    const prevTitle = (history.state) ? history.state.title : '';
+    const slug = baseURL.replace(/\//g, '');
+
     const stateObj = {
+      title,
+      prevTitle,
+      slug,
       randomData: Math.random(),
-      title: pageTitle,
-      prevTitle: oldTitle,
-      slag: path,
     };
 
     window.history.pushState(stateObj, '', baseURL);
   };
 
-  static setTitle = (event) => {
-    const title = $(event.currentTarget).data('title') || $(['data-page-title']).data('data-page-title');
-    document.title = `${title} | C is`;
+  static setTitle = (event, back = false) => {
+    const $titleElement = back ? $(['data-page-title']) : $(event.currentTarget);
+    const title = $titleElement.data('title') || $titleElement.data('data-page-title');
+    document.title = `${title} | ${PAGE_TITLE}`;
   }
 
   constructor() {
     this.request = null;
     this.timeout = null;
-  }
-
-  animateOut = () => {
-    const scrollPos = $(window).scrollTop();
-    const contentHeight = $(Trigger.CONTENT_SELECTOR).offset().top;
-    const dir = (scrollPos > (contentHeight / 2)) ? 100 : -100;
-
-    return new Promise((resolve) => {
-      TweenMax.to(Trigger.HEADER, TIMING_OUT, { y: '-100%' });
-      TweenMax.to(Trigger.FOOTER, TIMING_OUT, { y: '100%', opacity: 0 });
-
-      $('body').removeClass('load-completed');
-
-      TweenMax.to(Trigger.CONTENT_SELECTOR, 0.8, {
-        opacity: 0,
-        y: dir,
-        onComplete: () => {
-          TweenMax.set(window, { scrollTo: 0 });
-          resolve();
-        },
-      });
-    });
-  }
-
-  animateIn = (backTo) => {
-    if (backTo) {
-      TweenMax.to(Trigger.CONTENT_SELECTOR, 0.2, {
-        y: 0,
-        onComplete: () => {
-          TweenMax.set(window, { scrollTo: Trigger.pagePosition() });
-          TweenMax.to(Trigger.CONTENT_SELECTOR, TIMING_IN, { opacity: 1, delay: 0.4 });
-        },
-      });
-    } else {
-      TweenMax.fromTo(Trigger.CONTENT_SELECTOR, TIMING_IN, {
-        opacity: 0,
-        y: 0,
-      }, {
-        opacity: 1,
-        delay: 0.4,
-        onComplete: () => {
-          $(Trigger.CONTENT_SELECTOR).css('transform', '');
-        },
-      });
-    }
   }
 
   load() {
@@ -114,7 +66,7 @@ export default class Trigger {
     window.clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       if (this.request) window.location.reload();
-    }, Trigger.TIME_LIMIT);
+    }, TIME_LIMIT);
 
     // return promise
     // and do the request:
