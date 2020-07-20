@@ -1,33 +1,5 @@
+/** @define footer */
+
 .footer {
-  width: 100%;
-  padding: calc(var(--content-space) / 2) 0 calc(var(--content-space) / 1.666);
-  z-index: 4;
 
-  @media (max-width: 1060px) {
-    width: 1060px;
-  }
-
-  &__logo {
-    img { width: 9rem; }
-  }
-
-  &__contact {
-    text-align: center;
-    font-size: 0.85rem;
-
-    p {
-      margin: 0;
-    }
-  }
-
-  &__link {
-    font-size: 1rem;
-    color: var(--colour-blue);
-  }
-}
-
-.copyright {
-  display: inline-block;
-  margin-top: 0.333rem;
-  font-size: 0.85rem;
 }

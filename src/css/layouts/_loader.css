@@ -1,0 +1,42 @@
+/** @define loader */
+
+.loader {
+  position: fixed;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--colour-font-contrast);
+  background-color: var(--colour-primary);
+
+  @apply --full-size;
+
+  &__image-container {
+    font-weight: 800;
+    text-shadow: 1px 1px 10px #fff;
+    svg { fill: var(--colour-font-contrast); }
+  }
+
+  &__image {
+    width: 140px;
+  }
+
+  &__container {
+    position: relative;
+    width: 6rem;
+    height: 3px;
+    margin-top: 3rem;
+    line-height: 0;
+    border-radius: 16px;
+  }
+
+  &__line {
+    display: inline-block;
+    width: 0;
+    height: 100%;
+    margin: auto;
+    background-color: var(--colour-font-contrast);
+    border-radius: 16px;
+  }
+}

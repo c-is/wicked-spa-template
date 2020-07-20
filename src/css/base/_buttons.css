@@ -1,8 +1,8 @@
 .icon {
   display: inline-block;
+  vertical-align: middle;
   background-repeat: no-repeat;
   background-size: cover;
-  vertical-align: middle;
 
   &--right { margin-left: 8px; }
   &--left { margin-right: 8px; }
@@ -10,73 +10,127 @@
 
 .button {
   display: inline-block;
+  border-radius: var(--border-radius);
 
-  &--download {
-    width: 10.5rem;
-    height: 2.666rem;
-    padding: 0.6rem 0;
-    background-color: var(--colour-main);
-    border-radius: 2px;
-    box-shadow: 2px 2px 8px #2d3031;
-    border-bottom: none;
-    font-size: 1rem;
-    color: var(--colour-font);
-    font-weight: bold;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  &--search {
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
+  &--scrolltop {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
     padding: 0;
-    margin-left: 8px;
+    font-weight: 700;
+    color: var(--colour-primary);
+    background-color: transparent;
+    border: 2px solid var(--colour-primary);
+    border-radius: 50%;
+    outline: none;
+
+    &.is-alt {
+      color: var(--colour-font-contrast);
+      border-color: var(--colour-font-contrast);
+    }
   }
-}
 
-.button--close {
-  position: fixed;
-  top: 2.25rem;
-  right: 1rem;
-  width: 2.333rem;
-  height: 24px;
-  z-index: 99;
-  cursor: pointer;
+  &--link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 13.8rem;
+    height: 4rem;
+    font-weight: 500;
+    border: none;
+    transition: box-shadow 0.6s ease;
+    transform-style: preserve-3d;
 
-  i {
-    display: inline-block;
-    position: absolute;
-    top: center;
-    right: 0;
-    left: 0;
-    width: 24px;
-    height: 2px;
-    margin: auto;
+    @media (--screen-sm-max) {
+      width: 14.14rem;
+    }
 
     &::before,
     &::after {
-      @mixin pseudo 100%, 2px;
-
+      position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      margin: auto;
-      background-color: #fff;
-      transition: background-color 0.4s ease;
+      width: 100%;
+      height: 100%;
+      content: '';
+      transition: opacity 0.3s ease-in-out;
     }
 
-    &::before { transform: rotate(-45deg); }
-    &::after { transform: rotate(45deg); }
-  }
+    &::before { opacity: 0; }
+    &::after { opacity: 0.3; }
 
-  &:hover {
-    i {
-      &::before,
-      &::after {
-        background-color: var(--colour-font);
+    span {
+      display: inline-block;
+      transform: translateZ(20px);
+    }
+
+    &[data-colour="primary"] {
+      color: var(--colour-secondary);
+      background-color: var(--colour-primary);
+      &::before { box-shadow: 0 0.33rem 1.2rem var(--colour-primary); }
+      &::after { box-shadow: 0 0.333rem 1rem var(--colour-primary); }
+
+      &:hover {
+        background-color: var(--colour-primary-lighten);
+        &::before { opacity: 0.3; }
+      }
+    }
+
+    &[data-colour="secondary"] {
+      color: var(--colour-font);
+      background-color: var(--colour-font-contrast);
+      &::before { box-shadow: 0 0.33rem 1.2rem var(--colour-font-contrast); }
+      &::after { box-shadow: 0 0.333rem 1rem var(--colour-font-contrast); }
+
+      &:hover {
+        &::before { opacity: 0.3; }
+      }
+    }
+
+    &[data-colour="outline"] {
+      font-weight: 700;
+      color: var(--colour-primary);
+      border: 1px solid var(--colour-primary);
+      transition: background 0.4s, color 0.4s;
+
+      &:hover {
+        color: var(--colour-font-contrast);
+        background-color: var(--colour-primary-lighten);
       }
     }
   }
+}
+
+.fab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  padding: 0;
+  color: var(--colour-font-contrast);
+  background-color: var(--colour-primary);
+  border-radius: 50%;
+  box-shadow: var(--box-shadow-l);
+
+  &--cart {
+    svg {
+      width: 1.25rem;
+      fill: currentColor;
+    }
+  }
+}
+
+.arrow {
+  display: inline-block;
+  line-height: 0;
+  color: var(--colour-primary);
+  vertical-align: middle;
+
+  &--head { margin-right: 8px; }
+  &--tail { margin-left: 8px; }
 }
 

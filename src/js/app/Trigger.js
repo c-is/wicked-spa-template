@@ -1,125 +1,115 @@
-import $ from 'jquery';
-import createHistory from 'history/createBrowserHistory';
+import $ from 'jquery'
+import axios from 'axios'
+import metapatcher from 'metapatcher'
+import Handler from './Handler'
+import History from '../history'
 
-const History = createHistory();
-const TIME_LIMIT = 5000;
-const PAGE_TITLE = 'xxx';
 
-
-export default class Trigger {
-  static CONTENT_SELECTOR = '#container';
-
+export default class Trigger extends Handler {
   static back(url) {
-    if (history.length > 2 || document.referrer.length > 0) {
-      History.back();
+    if (window.history.length > 2 || document.referrer.length > 0) {
+      History.back()
     } else if (url) {
-      History.replace(null, null, url);
+      History.replace(null, null, url)
     } else {
-      History.replace(null, null, '/');
+      History.replace(null, null, '/')
     }
   }
 
-  static pagePosition(position) {
-    this.position = position || this.position;
+  constructor() {
+    super()
+    this.request = null
+    this.timeout = null
+    this.loadedData = null
 
-    return this.position;
+    this.CancelToken = null
+    this.source = null
+
+    console.log({ metapatcher })
+
+    this.metapatcher = metapatcher.configure({
+      facebookTags: { enabled: true },
+      openGraphTags: { enabled: true },
+      twitterTags: { enabled: true },
+    })
   }
 
-  static setHistory = (e, back = false) => {
-    const $titleElement = back ? $(['data-page-title']) : $(e.currentTarget);
-    const baseURL = back ? window.location.pathname : $(e.currentTarget).attr('href').replace(`http://${window.location.host}`, '');
-    const title = back ? $titleElement.attr('data-title') : $titleElement.data('data-page-title');
-    const prevTitle = (history.state) ? history.state.title : '';
-    const slug = baseURL.replace(/\//g, '');
+  setHistory = href => {
+    const baseURL = href
+      ? href.replace(`http://${window.location.host}`, '')
+      : window.location.pathname
+
+    const page = document.querySelector('[data-page]')
+    const title = page.dataset.page
+    const prev = window.history.state || ''
+    const slug = baseURL.replace(/\//g, '')
 
     const stateObj = {
       title,
-      prevTitle,
+      prev,
       slug,
+      href: baseURL,
       randomData: Math.random(),
-    };
+    }
 
-    window.history.pushState(stateObj, '', baseURL);
-  };
-
-  static setTitle = (event, back = false) => {
-    const $titleElement = back ? $(['data-page-title']) : $(event.currentTarget);
-    const title = $titleElement.data('title') || $titleElement.data('data-page-title');
-    document.title = `${title} | ${PAGE_TITLE}`;
+    window.history.pushState(stateObj, '', baseURL)
   }
 
-  constructor() {
-    this.request = null;
-    this.timeout = null;
+  onLinkClick = (event, type) => {
+    if (event) event.preventDefault()
+    return this.trigger('click', event, type)
+  }
+
+  clearToken() {
+    this.CancelToken = null
+    this.source = null
   }
 
   load() {
     // cancel old request:
-    if (this.request) this.request.abort();
+    if (this.CancelToken) this.source.cancel('cancelled')
 
-    // define url
-    const path = window.location.pathname;
-    const search = window.location.search || '';
-    const url = path + search;
+    const path = window.location.pathname
+    const search = window.location.search || ''
+    const url = path + search
 
-    // define timeout
-    window.clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      if (this.request) window.location.reload();
-    }, TIME_LIMIT);
+    this.CancelToken = axios.CancelToken
+    this.source = this.CancelToken.source()
 
-    // return promise
-    // and do the request:
-    return new Promise((resolve, reject) => {
-      // do the usual xhr stuff:
-      this.request = new XMLHttpRequest();
-      this.request.open('GET', url);
-      this.request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
-      // onload handler:
-      this.request.onload = () => {
-        if (this.request.status === 200) {
-          this.loadedData = this.request.responseText;
-          // this.trigger(PushStatesEvents.PROGRESS, 1);
-          resolve(true);
-        } else {
-          reject(Error(this.request.statusText));
-
-          if (this.request.statusText !== 'abort') {
-            window.location.reload();
-          }
-        }
-
-        this.request = null;
-        window.clearTimeout(this.timeout);
-      };
-
-      // catching errors:
-      this.request.onerror = () => {
-        console.log('error');
-        reject(Error('Network Error'));
-        window.clearTimeout(this.timeout);
-        this.request = null;
-      };
-
-      // catch progress
-      this.request.onprogress = (e) => {
-        if (e.lengthComputable) {
-          // this.trigger(PushStatesEvents.PROGRESS, e.loaded / e.total);
-        }
-      };
-
-      // send request:
-      this.request.send();
-    });
+    return axios.get(url, {
+      cancelToken: this.source.token,
+    })
+      .then(({ data }) => {
+        this.loadedData = data
+        this.clearToken()
+      })
+      .catch(() => {
+        this.clearToken()
+      })
   }
 
   render() {
-    const data = this.loadedData;
-    const container = Trigger.CONTENT_SELECTOR;
-    const $loadedContent = $(container, data)[0] ? $(container, data) : $(data).filter(container);
-    const code = $loadedContent.html();
+    const data = this.loadedData
+    const container = document.querySelector('.wrapper')
+    const ldJson = document.querySelector('[type="application/ld+json"]')
+    const $wrapper = $(data).filter('.wrapper')
+    const $loadedContent = $('.wrapper', data)[0] ? $('.wrapper', data) : $wrapper
 
-    $(container).html(code);
+    if (ldJson) {
+      const newLdjson = $(data).filter('[type="application/ld+json"]')[0]
+      if (newLdjson) {
+        ldJson.text = newLdjson.text
+      }
+    }
+
+    if ($wrapper) {
+      const meta = $wrapper.data('meta')
+      this.metapatcher.setPageMeta({ ...meta })
+    }
+
+    const code = $loadedContent.html()
+    container.style.opacity = 0
+    $(container).html(code)
+    return container
   }
 }

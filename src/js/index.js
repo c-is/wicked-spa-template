@@ -1,12 +1,19 @@
-import $ from 'jquery';
-import Promise from 'promise-polyfill';
-import FastClick from 'fastclick';
-import App from './app/App';
-import '../css/style.css';
+import { gsap } from 'gsap'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+import FastClick from 'fastclick'
+import App from '@app/app/App'
+import utils from '@app/utils/util-control'
 
-$(document).ready(() => {
-  if (!window.Promise) { window.Promise = Promise; }
-  const app = new App();
-  app.init();
-  FastClick.attach(document.body);
-});
+import '../css/style.css'
+
+gsap.registerPlugin(ScrollToPlugin);
+
+(() => {
+  const app = new App()
+  app.init()
+  FastClick.attach(document.body)
+
+  if (process.env.NODE_ENV === 'development') {
+    utils()
+  }
+})()

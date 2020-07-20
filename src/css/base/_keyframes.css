@@ -1,18 +1,25 @@
 @keyframes blink {
-  0% { opacity:0.6; }
-  10% { opacity:1; }
-  100% { opacity:0.6; }
+  0% { opacity: 0.6; }
+  10% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes spinner-rotate {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
 }
 
 @keyframes diffusion {
-  0% { 
+  0% {
     opacity: 1;
     transform: scale(0.2);
   }
+
   75% {
     transform: scale(1.25);
   }
-  100% { 
+
+  100% {
     opacity: 0;
     transform: scale(1.25);
   }

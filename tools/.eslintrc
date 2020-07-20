@@ -1,9 +1,0 @@
-{
-  "rules": {
-    "global-require": "off",
-    "no-console": "off",
-    "jsx-a11y/href-no-hash": "off",
-    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
-  }
-}

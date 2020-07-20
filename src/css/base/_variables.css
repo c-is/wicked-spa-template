@@ -7,46 +7,73 @@
   /*
    * Layout
    * ======================================================================== */
-  --content-width: 1140px;
-  --content-space: 3.33rem;
+  --content-width: 1280px;
+  --content-max-width: 1440px;
+  --content-space: 32px;
+  --grid-width: 6.2rem;
+  --grid-margin: 15px;
+  --gutter-space: 1.333rem;
+  --header-height: 58px;
+  --space-l: 40px;
+  --space-m: 24px;
+  --space-s: 16px;
+  --space-xs: 12px;
+  --border-radius: 0.1em;
+  --gutter-space-mobile: 1.42rem;
+  --space-xl-mobile: 40px;
+  --space-l-mobile: 32px;
+  --space-m-mobile: 20px;
+  --content-space-mobile: 24px;
+  --header-height-mobile: 56px;
+  --content-width-mobile: 375px;
 
   /*
    * Typography
    * ======================================================================== */
-  --font-main: "Baskerville Old Face", "Baskerville", serif;
-  --font-sub: "HelveticaNeueRoman", "HelveticaNeue-Roman", 'Arial', "Helvetica Neue Roman", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosRegular', "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
+  --font-main: "Red Hat Display", "Helvetica Neue", "Helvetica", 'Arial', sans-serif;
+  --font-head: "Lexend Deca", "Helvetica Neue", "Helvetica", 'Arial', sans-serif;
+  --fsize-xxxl: 6.6666em;
+  --fsize-xxl: 2em;
+  --fsize-xl: 1.6em;
+  --fsize-l: 1.2em;
+  --fsize-xxl-mobile: 2.85rem;
+  --fsize-xl-mobile: 2.15rem;
 
   /*
    * Media queries breakpoints
    * ======================================================================== */
   --screen-xs-min: 480px;  /* Extra small screen / phone */
+  --screen-tb-min: 640px;  /* Small screen / tablet vertical */
   --screen-sm-min: 992px;  /* Small screen / tablet */
   --screen-md-min: 1280px;  /* Medium screen / desktop */
   --screen-mc-min: 1440px;  /* Macbook screen / desktop */
   --screen-lg-min: 1920px; /* Large screen / wide desktop */
 
+  @custom-media --screen-xs-max (max-width: 442px);
+  @custom-media --screen-xs-min (min-width: 443px);
+  @custom-media --screen-tb-max (max-width: 640px);
+  @custom-media --screen-tb-min (min-width: 640px);
+  @custom-media --screen-sm-max (max-width: 992px);
+  @custom-media --screen-sm-min (min-width: 992px);
+  @custom-media --screen-md-max (max-width: 1280px);
+  @custom-media --screen-mc-max (max-width: 1440px);
+  @custom-media --screen-lg-max (max-width: 1920px);
+
   /*
    * Colours
    * ======================================================================== */
-  --colour-font: #333;
-  --colour-main: #0e0d6a;
-  --colour-sub: #c1be51;
-  --colour-grey-deep: #666;
-  --colour-grey: #898989;
-  --colour-grey-light: #dbdbdb;
-  --colour-grey-lightest: #eee;
-  --colour-bg: #f7f7f7;
-  --colour-border: #dadada;
-  --colour-blue: #2C69CA;
-  --colour-yellow: #eaea86;
-  --colour-yellow-light: #ffff31;
-  --colour-yellow-deep: #dada1c;
-  --colour-green: #cae7e6;
+  --colour-font: #272727;
+  --colour-font-contrast: #fff;
+  --colour-primary: #2727ff;
+  --colour-primary-difference: #d8d800;
+  --colour-primary-lighten: #33f;
+  --colour-secondary: #00f0ff;
+  --colour-bg: #fff;
+  --colour-bg-secondary: #272727;
+  --colour-border: #333;
   --colour-red: #ec4747;
-  --colour-red-light: #ff6262;
-  --colour-red-deep: #da1c1c;
-  --colour-orange: #e5c1aa;
-  --colour-pink: #d8d5da;
+  --colour-violet: #4200ff;
+  --colour-icon: #fff;
 
   /*
    * Transitions
@@ -73,5 +100,6 @@
   /*
    * shadows
    * ======================================================================== */
-  --box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+  --box-shadow: 0 0.33rem 2rem 0 rgba(39, 39, 255, 0.15);
+  --box-shadow-l: 0 0.33rem 2rem 0 rgba(39, 39, 255, 0.35);
 }

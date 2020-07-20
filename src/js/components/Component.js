@@ -1,22 +1,22 @@
-import Handler from '../app/Handler';
+import Handler from '@app/app/Handler'
 
 export default class Component extends Handler {
   constructor() {
-    super();
+    super()
   }
 
   preloadImages() {
-    return [];
+    return []
   }
 
   setState(state) {
     return new Promise((resolve) => {
 
-    });
+    })
   }
 
   onState() {
-    return false;
+    return false
   }
 
   animateIn(index, delay) {
@@ -24,7 +24,7 @@ export default class Component extends Handler {
   }
 
   animateOut() {
-    return Promise.resolve(true);
+    return Promise.resolve(true)
   }
 
   turnOff() { }
@@ -33,7 +33,11 @@ export default class Component extends Handler {
 
   resize(wdt, hgt) { }
 
+  resetElements() {
+    
+  }
+
   destroy() {
-    super.destroy();
+    super.destroy()
   }
 }

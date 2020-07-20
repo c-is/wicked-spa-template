@@ -1,5 +1,5 @@
-import ImageModal from './ImageModal';
+import ImageModal from './ImageModal'
 
 export {
   ImageModal,
-};
+}

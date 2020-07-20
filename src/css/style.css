@@ -1,29 +1,34 @@
-/*SCSS MIXINS*/
+/* SCSS MIXINS */
 @import 'mixins/_vendor.css';
+@import 'base/_utils.css';
 
-/*CONFIG MODULES*/
+/* CONFIG MODULES */
+@import 'base/_typography.css';
 @import 'base/_variables.css';
 @import 'base/_keyframes.css';
 @import 'base/_normalize.css';
 @import 'base/_utilities.css';
 @import 'base/_defaults.css';
 @import 'base/_buttons.css';
-@import 'base/_typography.css';
 @import 'base/_misc.css';
-@import 'base/_breakpoints.css';
 @import 'base/_print.css';
 
-/*LAYOUTS*/
+/* LAYOUTS */
 @import 'layouts/_header.css';
-@import 'layouts/_nav.css';
+@import 'layouts/_navigation.css';
 @import 'layouts/_sidebar.css';
 @import 'layouts/_main.css';
 @import 'layouts/_footer.css';
+@import 'layouts/_loader.css';
+@import 'layouts/_overlay.css';
 
-/*COMPONENTS*/
-@import 'components/_carousel.css';
-@import 'components/_popup.css';
+/* COMPONENTS */
+@import 'components/_cursor.css';
+@import 'components/_home.css';
+@import 'components/_contact.css';
+@import 'components/_modal.css';
 
-/*VENDOR*/
-@import 'vendor/_external.css';
+/* VENDOR */
+
+/* @import 'vendor/_external.css'; */
 

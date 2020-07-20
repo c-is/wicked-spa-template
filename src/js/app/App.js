@@ -1,244 +1,395 @@
-import $ from 'jquery';
-import imagesLoaded from 'imagesloaded';
-import { TweenMax } from 'gsap';
+import $ from 'jquery'
+import { gsap } from 'gsap'
 
-import Trigger from './Trigger';
-import Scroll from './Scroll';
-import Animations from './Animations';
-import Loader from './Loader';
+import {
+  Scroll,
+  Animations,
+  Loader,
+  Overlay,
+  Preload,
+  Menu,
+  Cursor,
+} from '@app/widgets'
 
-import * as Components from '../components';
-import * as Templates from '../templates';
-import model from './Models';
-import ClassFactory from './factories/class-factory';
+import * as Components from '@app/components'
+import ClassFactory from '@app/factories/class-factory'
 
-const classFactory = new ClassFactory();
+import {
+  registerStatus,
+  registerStatusAll,
+  registerWidget,
+  registerComponent,
+  getStatusAll,
+  getWidget,
+  getWidgetAll,
+  getGlobal,
+} from '@app/factories/registry'
 
-const TIMING_IN = 1;
-// const TIMING_OUT = 0.4;
+import {
+  setCurrentLink,
+  browserDetect,
+  setBrowserDetect,
+} from '@app/utils/global'
+
+import Trigger from './Trigger'
+import getParams from './helper'
+
+// import history from '../history'
+
+const { __DEV__ } = process.env
+const doc = getGlobal('doc')
+const classFactory = new ClassFactory()
 
 
 export default class Page {
   constructor() {
     this.$view = $('.main');
-    this.components = [];
-    this.templates = [];
-    this.model = model;
+    [this.view] = this.$view
+    this.container = null
+    this.components = []
+    this.templates = []
+    this.page = null
+    this.isTransitionStart = false
+
+    this.trigger = new Trigger()
+    this.loader = new Loader()
+    this.scroll = new Scroll()
+    this.animations = new Animations()
+    this.overlay = new Overlay()
+    this.preload = new Preload()
+    this.menu = new Menu()
+    this.cursor = new Cursor()
+
+    this.resizeBound = this.resize.bind(this)
+    this.backHandlerBound = this.backHandler.bind(this)
+    this.pageTransitionBound = this.pageTransition.bind(this)
+
+    this.register()
   }
 
   init() {
-    this.globalEvents();
-    this.loadTemplate().then(() => {
-      this.loadComponent();
-      this.getPage();
-      this.preLoad();
-      this.trigger = new Trigger();
-      this.scroll = new Scroll();
-      Trigger.setHistory();
-    });
+    const current = window.location.pathname
+    const pageConfig = {
+      href: current,
+      slug: current.replace(/\//g, ''),
+    }
+
+    setBrowserDetect()
+
+    gsap.set(window, { scrollTo: 0 })
+    this.events()
+
+    this.preload.onPreload()
+      .then(() => this.setPage(pageConfig))
+      .then(() => this.loader.leave())
+      .then(() => this.scroll.onScrollAnim())
+
+    this.trigger.setHistory()
   }
 
-  globalEvents() {
-    $(document).on('click', '.js-ajax-trigger', this.pageTransition);
-
-    $(window).on('popstate', (event) => {
-      if (history.length > 2 || document.referrer.length > 0) {
-        this.pageTransition(event, true);
-      }
-    });
+  events() {
+    $(document).on('click', '.js-ajax-trigger', this.pageTransitionBound)
+    $(document).on('click', '.js-scroller', this.scroller)
+    $(document).on('click', '.js-back', this.backPrevious)
+    $(window).on('popstate', this.backHandlerBound)
+    $(window).on('resize', this.resizeBound)
   }
 
-  getPage() {
-    // if (jsWrapper === null) jsWrapper = document.getElementsByClassName('js-ajax-container')[0]
-    const nameSpace = this.$view.data('namespace');
-    classFactory.getPageInstance(this.$view, nameSpace);
-    classFactory.setPageClass(this.$view);
+  register() {
+    registerStatus('view', this.view)
+
+    registerWidget('Loader', this.loader)
+    registerWidget('Scroll', this.scroll)
+    registerWidget('Animations', this.animations)
+    registerWidget('Overlay', this.overlay)
+    registerWidget('Preload', this.preload)
+    registerWidget('Menu', this.menu)
+    registerWidget('Cursor', this.cursor)
   }
 
-  getTemplate(obj) {
-    const { load, name, $el, options } = obj;
-
-    return new Promise((resolve) => {
-      this.model.loadPost(name, load).then((data) => {
-        this.template = new Templates[name]($el, data, options);
-        const renderData = this.template.render();
-        this.templates.push(this.template);
-        resolve(renderData.v);
-      });
-    });
+  updateSize = () => {
+    if (browserDetect().mobile) {
+      gsap.set('.js-full-height', { height: window.innerHeight })
+      gsap.set('.js-top-height', { height: window.innerHeight - window.innerWidth })
+    }
   }
 
-  async loadTemplate() {
-    const templates = this.$view.find('[data-template]');
-    const $templates = templates.length > 0 ? templates : [];
-
-    const templateExe = (i) => {
-      const $template = $templates.eq(i);
-      const name = $template.data('template');
-
-      if (Templates[name] !== undefined) {
-        const options = $template.data('options');
-        const load = $template.data('load') || '';
-
-        this.getTemplate({
-          $el: $template, name, options, load,
-        }).then((data) => {
-          $template.html(data);
-          TweenMax.to($template, TIMING_IN, { opacity: 1 });
-        });
-      } else {
-        window.console.warn('There is no "%s" template!', name);
-      }
-    };
-
-    return new Promise((resolve) => {
-      $templates.forEach(async (template, i) => {
-        await templateExe(i);
-      });
-
-      resolve();
-    });
+  backPrevious = event => {
+    event.preventDefault()
+    window.history.back()
   }
 
-  loadComponent() {
-    const $components = this.$view.parent().find('[data-component]');
+  backHandler(event) {
+    if (window.history.length > 2 || document.referrer.length > 0) {
+      this.pageTransition(event, true)
+    }
+  }
+
+  scroller = event => {
+    event.preventDefault()
+    const target = event.currentTarget.dataset.to
+    const scrollTo = target === 'top' ? 0 : $(target).offset().top
+    gsap.to(window, 1.6, { scrollTo, ease: 'circ.easeInOut' })
+  }
+
+  scrollTo = position => (
+    new Promise(resolve => {
+      $('html, body').animate({ scrollTop: position }, 600, () => {
+        resolve()
+      })
+    })
+  )
+
+  async getPage(params) {
+    const nameSpace = this.view.dataset.namespace
+    const transition = this.pageTransitionBound
+    const props = { transition, params, nameSpace }
+
+    classFactory.setPageClass(this.$view)
+
+    this.page = await classFactory.getPageInstance(this.$view, nameSpace)
+      .then(PageComponent => new PageComponent.default(this.$view, props))
+
+    console.log(`${nameSpace} page rendered!`)
+    return this.page.render()
+  }
+
+  loadComponent($container = this.$view) {
+    const $components = $container.find('[data-component]')
 
     for (let i = $components.length - 1; i >= 0; i -= 1) {
-      const $component = $components.eq(i);
-      const componentName = $component.data('component');
+      const $component = $components.eq(i)
+      const componentName = $component.data('component')
 
       if (Components[componentName] !== undefined) {
-        const options = $component.data('options');
-        const component = new Components[componentName]($component, options);
+        const options = $component.data('options')
+        const component = new Components[componentName]($component, options)
 
-        this.components.push(component);
+        registerComponent(componentName, component)
+        this.components.push(component)
       } else {
-        window.console.warn('There is no "%s" component!', componentName);
+        window.console.warn('There is no "%s" component!', componentName)
       }
     }
   }
 
-  updatePage = ({ tempSlug }) => {
-    this.$view = $('.main');
-    this.setAnalytics(tempSlug);
-  };
+  async setPage(props, update = false) {
+    const {
+      datasets,
+      slug,
+      href,
+      pagePosition = 0,
+      isLoaded = true,
+    } = props
 
-  pageTransition = (event, back) => {
-    event.preventDefault();
+    const isMobile = browserDetect().mobile
+    let isAjaxActive = false
 
-    let tempSlug = !back ? event.currentTarget.getAttribute('href') : history.state.slug;
-    tempSlug = tempSlug.replace(/\//g, '');
+    if (isMobile) {
+      this.$view = $('.main')
+    } else {
+      this.$view = update ? $('.new-wrapper .main') : $('.main')
+    }
 
-    Animations.animateOut()
-      .then(() => (
-        Loader.loaderIn()
-      ))
-      .then(() => {
-        this.destroy();
-        if (!back) Trigger.setHistory(event, back);
-        return this.trigger.load();
-      })
-      .then(() => {
-        this.trigger.render();
-        return this.loadTemplate();
-      })
-      .then(() => {
-        this.updatePage({ tempSlug });
-        return this.preLoad();
-      })
-      .then(() => {
-        this.getPage();
-        this.loadComponent();
-        Animations.animateIn();
-        Scroll.updateScroll();
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log('Error!');
-      });
-  };
+    [this.view] = this.$view
+    this.setAnalytics(slug)
+    this.updateSize()
 
-  onState() {
-    let changed = false;
+    if (update) {
+      isAjaxActive = true
+      this.scroll = Scroll.update()
+      this.register()
+    }
 
-    for (const component of this.components) {
-      const componentChanged = component.onState();
-      if (!changed && !!componentChanged) {
-        changed = true;
+    await this.getPage(datasets)
+    this.loadComponent()
+
+    setCurrentLink(href)
+
+    registerStatusAll({
+      slug,
+      isLoaded,
+      isAjaxActive,
+      pagePosition,
+    })
+
+    this.cursor.resetElements()
+    await this.callLoaded()
+    await this.scroll.render()
+    this.scroll.onScrollParallax()
+  }
+
+  async pageTransition(event, back, custom = {}) {
+    if (event) {
+      event.preventDefault()
+    }
+
+    if (this.isTransitionStart) {
+      return
+    }
+
+    this.isTransitionStart = true
+    const currentPosition = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
+    const { slug, pagePosition, isMenuOpen } = getStatusAll()
+
+    const params = getParams({
+      event,
+      back,
+      custom,
+      currentPosition,
+      prevPosition: pagePosition,
+      prevHref: window.history.state ? window.history.state.href : null,
+    })
+
+    const {
+      nextSlug,
+      nextHref,
+      position,
+      type,
+      dataset,
+    } = params
+
+    const isBack = back && !custom.href
+    const isSameUrl = slug === nextSlug && !isBack
+
+    const pageParams = {
+      href: nextHref,
+      pagePosition: position,
+      datasets: dataset,
+      slug: nextSlug,
+    }
+
+    const pageProps = {
+      params: pageParams,
+      back,
+      position,
+    }
+
+    if (isSameUrl) {
+      this.isTransitionStart = false
+      return
+    }
+
+    if (isMenuOpen) {
+      const menu = getWidget('Menu')
+      if (menu) {
+        await menu.handleClose(true)
       }
     }
 
-    return changed;
+    this.overlay.create()
+    this.loader.enter()
+    if (!isBack) Trigger.setHistory(nextHref)
+
+    await this.trigger.load()
+    await this.trigger.onLinkClick(event, type)
+
+    this.destroy()
+
+    await this.renderNewPage(pageProps)
+
+    this.isTransitionStart = false
+  }
+
+  async renderNewPage({
+    params,
+    back,
+    position,
+    skipAnim,
+  }) {
+    const container = this.trigger.render()
+    registerStatus('view', container)
+
+    await this.preload.onPreload()
+    await this.setPage(params, true)
+
+    await this.loader.leave(true)
+    this.overlay.destroy()
+    this.callLoaded()
+    gsap.set(window, { scrollTo: 0 })
+
+    await this.animations.enter({
+      element: container,
+      skipAnim,
+    })
+
+    this.isTransitionStart = false
+    this.scroll.scrollInit()
+
+    if (back) {
+      await this.scrollTo(position)
+    }
+
+    return Promise.resolve()
+  }
+
+  onState() {
+    let changed = false
+
+    for (const component of this.components) {
+      const componentChanged = component.onState()
+      if (!changed && !!componentChanged) {
+        changed = true
+      }
+    }
+
+    return changed
   }
 
   turnOff() {
-    this.callAll('turnOff');
+    this.callAll('turnOff')
   }
 
   turnOn() {
-    this.callAll('turnOn');
+    this.callAll('turnOn')
   }
 
-  destroy() {
-    this.callAll('destroy');
-    this.components = [];
-    this.templates = [];
-    Scroll.destroyScroll();
+  async callLoaded(...args) {
+    if (typeof this.page.loaded === 'function') {
+      this.page.loaded(...[].slice.call(args, 1))
+    }
+  }
 
-    TweenMax.killTweensOf(this.view);
+  resize() {
+    const widgets = getWidgetAll()
+    const entries = Object.entries(widgets)
 
-    this.$view.off();
-    this.$view = null;
-    this.pageTitle = null;
+    for (const [, widget = {}] of entries) {
+      if (typeof widget.resize === 'function') {
+        widget.resize(...[].slice.call([], 1))
+      }
+    }
+
+    this.callAll('resize')
   }
 
   callAll(fn, ...args) {
+    /* eslint no-restricted-syntax: ['error', 'WithStatement', 'BinaryExpression[operator="in"]'] */
     for (const component of this.components) {
       if (typeof component[fn] === 'function') {
-        component[fn].apply(component, [].slice.call(arguments, 1));
+        component[fn](...[].slice.call(args, 1))
       }
     }
-    for (const template of this.templates) {
-      if (typeof template[fn] === 'function') {
-        template[fn].apply(template, [].slice.call(arguments, 1));
-      }
+
+    if (typeof this.page[fn] === 'function') {
+      this.page[fn](...[].slice.call(args, 1))
     }
   }
 
-  preLoad() {
-    const loadingImages = imagesLoaded(this.$view.find('.js-preload').toArray(), { background: true });
-    let images = [];
+  destroy() {
+    this.callAll('destroy')
+    this.scroll.destroy()
+    this.animations.destroy()
+    this.components = []
+    this.templates = []
 
-    for (const component of this.components) {
-      images = images.concat(component.preloadImages());
-    }
+    gsap.killTweensOf(this.view)
 
-    for (const url of images) {
-      loadingImages.addBackground(url, null);
-    }
-
-    return new Promise((resolve) => {
-      $('body').addClass('load-start');
-      this.loader = loadingImages;
-
-      if (this.loader.images.length > 0) {
-        this.loader.on('progress', (instance) => {
-          const progress = (instance.progressedCount / instance.images.length) * 100;
-          Loader.loaderOut(progress).then(() => { Loader.loaderSet() });
-        }).on('always', () => {
-          $('body').removeClass('load-start').addClass('load-completed');
-          resolve(true);
-        });
-      } else {
-        Loader.loaderOut(90).then(() => {
-          Loader.loaderSet();
-          $('body').removeClass('load-start').addClass('load-completed');
-        });
-      }
-    });
+    this.$view.off()
+    this.$view = null
   }
 
-  setAnalytics(pathname) {
-    if (window.ga) window.ga('send', 'pageview', pathname);
+  setAnalytics = pathname => {
+    if (window.ga && !__DEV__) window.ga('send', 'pageview', pathname)
   }
 }

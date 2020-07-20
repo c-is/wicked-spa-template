@@ -1,30 +1,31 @@
-import $ from 'jquery';
-
-import DefaultPage from './../pages/_default-page';
-import HomePage from './../pages/home-page';
-import AboutPage from './../pages/about-page';
-import ErrorPage from './../pages/error-page';
-
 export default class ClassFactory {
-  getPageInstance(page, pageType) {
-    // console.log('– Pages')
-
-    switch(pageType) {
-      case 'homepage':
-        return new HomePage(page, pageType)
-      case 'about':
-        return new AboutPage(page, pageType)
-      case 'error-page':
-        return new ErrorPage(page, pageType)
+  getPageInstance = (page, pageType) => {
+    switch (pageType) {
+      case 'home':
+        return import(/* webpackChunkName: 'home' */ '../pages/Home')
+      // case 'error-page':
+      //   return new ErrorPage(page, pageType)
       default:
-        return new DefaultPage(page, pageType)
+        return import(/* webpackChunkName: 'default' */ '../pages/DefaultPage.js')
     }
   }
 
-  setPageClass(page) {
-    const pageName = page.data('page');
-    $('body').removeClass((index, className) => (className.match(/(^|\s)is-\S+/g) || []).join(' '));
-    $('body').addClass(`is-${pageName.toLowerCase()}`);
+  setPageClass = page => {
+    const pageName = page.data('namespace')
+    const className = page.data('class')
+    const { body } = document
+    const list = [...body.classList]
+
+    list.forEach(name => {
+      if (name.match(/(^|\s)is-\S+/g)) {
+        body.classList.remove(name)
+      }
+    })
+
+    body.classList.add(`is-${pageName.toLowerCase()}`)
+
+    if (className) {
+      body.classList.add(`is-${className.toLowerCase()}`)
+    }
   }
 }
-

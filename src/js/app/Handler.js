@@ -1,5 +1,5 @@
 export default class Handler {
-  static events = {};
+  static events = {}
 
   /**
    * Attach an event handler function.
@@ -8,12 +8,12 @@ export default class Handler {
    * @return {Handler}            returns current object
    */
   on(eventName, handler) {
-    if (!this.events[eventName]) {
-      this.events[eventName] = [];
+    if (!Handler.events[eventName]) {
+      Handler.events[eventName] = []
     }
 
-    this.events[eventName].push(handler);
-    return this;
+    Handler.events[eventName].push(handler)
+    return this
   }
 
   /**
@@ -24,49 +24,53 @@ export default class Handler {
    */
   off(eventName, handler) {
     if (typeof eventName === 'undefined') {
-      this.events = {};
-      return this;
+      Handler.events = {}
+      return this
     }
 
-    if (typeof handler === 'undefined' && this.events[eventName]) {
-      this.events[eventName] = [];
-      return this;
+    if (typeof handler === 'undefined' && Handler.events[eventName]) {
+      Handler.events[eventName] = []
+      return this
     }
 
-    if (!this.events[eventName]) {
-      return this;
+    if (!Handler.events[eventName]) {
+      return this
     }
 
-    const index = this.events[eventName].indexOf(handler);
+    const index = Handler.events[eventName].indexOf(handler)
 
     if (index > -1) {
-      this.events[eventName].splice(index, 1);
+      Handler.events[eventName].splice(index, 1)
     }
 
-    return this;
+    return this
   }
 
   /**
    * Call an event handler function.
-   * @param {string} eventName      
+   * @param {string} eventName
    * @param {[type]} ...extraParameters pass any parameters to callback function
    */
-  trigger(eventName, ...extraParameters) {
-    if (!this.events[eventName]) {
-      return;
+
+  trigger = async (eventName, event, ...args) => {
+    if (!Handler.events[eventName]) {
+      return Promise.resolve()
     }
 
-    const l = this.events[eventName].length;
+    const l = Handler.events[eventName].length
+
     if (!l) {
-      return;
+      return Promise.resolve()
     }
 
-    for (let i = 0; i < l; i += 1) {
-      this.events[eventName][i].apply(this, [].slice.call(arguments, 1));
+    for (const [i] of Handler.events[eventName].entries()) {
+      await Handler.events[eventName][i](...[event, ...args])
     }
+
+    return Promise.resolve()
   }
 
   destroy() {
-    this.events = {};
+    Handler.events = {}
   }
 }

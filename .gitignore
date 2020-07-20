@@ -10,12 +10,12 @@ node_modules
 *.sublime-project
 *.sublime-workspace
 .idea
-packag-lock.json
-yarn.lock
 yarn-error.log
 
 .tmp
 .tmp/*
+cms/*
+build
 build/*
 
 *.sublime-project

@@ -6,20 +6,29 @@
 }
 
 html {
-  font-size: 12px;
+  overflow-x: hidden;
+  font-size: 15px;
 
-  /* font-size: responsive 12px 21.5px;
-  font-range: 1240px 1920px; */
+  @media (--screen-xs-max) {
+    font-size: 14px;
+  }
 }
 
 body {
-  width: 100vw;
-  color: var(--colour-font);
-  font-size: 100%;
-  font-family: var(--font-sub);
-  font-weight: 300;
-  line-height: 1.6;
   overflow-x: hidden;
+  font-family: var(--font-main);
+  font-size: 100%;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--colour-font);
+  cursor: none !important;
+  background-color: var(--colour-bg-secondary);
+
+  @media (--screen-sm-max) {
+    background-color: var(--colour-bg);
+  }
+
+  > * { cursor: none !important; }
 }
 
 html,
@@ -28,24 +37,28 @@ input,
 select,
 textarea {
   color: var(--colour-font);
+  cursor: none;
+}
+
+input,
+select,
+textarea {
+  cursor: none !important;
 }
 
 hr {
   display: block;
   height: 1px;
-  border: 0;
-  border-top: 1px solid #dadada;
-  margin: 1em 0;
   padding: 0;
+  margin: 1em 0;
+  border: 0;
+  border-top: 1px solid var(--colour-border);
 }
 
 a {
+  color: var(--colour-primary);
   text-decoration: none;
-  color: var(--colour-font);
-
-  &:--enter {
-    color: color(var(--colour-red) a(80%));
-  }
+  cursor: none;
 }
 
 audio,
@@ -66,41 +79,80 @@ textarea {
 }
 
 ul {
-  margin: 0;
   padding: 0;
+  margin: 0;
   list-style: none;
 }
 
 .browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
   padding: 0.2em 0;
+  margin: 0.2em 0;
+  color: #000;
+  background: #ccc;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+}
+
+.js-button-standard {
+  position: relative;
+  padding: 1em;
+
+  .button-inner {
+    position: relative;
+    display: inline-block;
+
+    &::before {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      overflow: hidden;
+      content: '';
+      background-color: #fff;
+      transition: width 0.4s ease;
+    }
+  }
+
+  .circle { transition: all 0.6s; }
+
+  &:hover {
+    .button-inner::before { width: 100%; }
+
+    .circle {
+      border-color: #fff;
+      transform: scale(0);
+    }
+  }
 }
 
 :--heading {
+  position: relative;
   margin-top: 0;
-  font-weight: 400;
-  font-family: var(--font-sub);
+  font-family: var(--font-head);
+  font-weight: 500;
+}
+
+h1 {
+  margin-bottom: var(--content-space);
+  font-size: var(--fsize-xxxl);
+  line-height: 1.3;
+
+  @media (--screen-sm-max) {
+    margin-bottom: var(--gutter-space-mobile);
+  }
 }
 
 h2 {
-  margin-bottom: 0;
-  font-size: 1.5rem;
-  letter-spacing: 1px;
-  font-weight: 800;
+  margin-bottom: var(--space-head);
+  font-size: var(--fsize-xxl);
 }
 
-h3 {
-  margin-bottom: 0;
-  font-size: 1.25rem;
-  letter-spacing: 1px;
-  font-weight: 800;
-}
-
-h5 {
-  margin: 0 0 0.3em;
-}
+h4 { position: relative; }
+h5 { margin: 0 0 0.3em; }
 
 @custom-selector :--heading h1, h2, h3, h4, h5, h6;
 @custom-selector :--button button, .button;
