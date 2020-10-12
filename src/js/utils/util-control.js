@@ -1,4 +1,4 @@
-import { invertColor } from './helper'
+import { invertColor } from './utils'
 
 export default function utilControl() {
   const doc = document.documentElement
@@ -26,6 +26,7 @@ export default function utilControl() {
       doc.style.setProperty('--colour-primary', '#9FB500')
       doc.style.setProperty('--colour-primary-difference', differenceColour)
       doc.style.setProperty('--colour-bg-secondary', '#ccc')
+      doc.style.setProperty('--colour-cursor', '#D9000D')
     } else {
       const differenceColour = invertColor('#33f')
       doc.style.setProperty('--colour-font', '#272727')
@@ -34,6 +35,7 @@ export default function utilControl() {
       doc.style.setProperty('--colour-primary', '#33f')
       doc.style.setProperty('--colour-primary-difference', differenceColour)
       doc.style.setProperty('--colour-bg-secondary', '#272727')
+      doc.style.setProperty('--colour-cursor', '#D9000D')
     }
   })
 }

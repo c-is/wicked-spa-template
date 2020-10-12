@@ -1,6 +1,6 @@
 const path = require('path');
-const fs = require('fs');
-const prettier = require('prettier');
+// const fs = require('fs');
+// const prettier = require('prettier');
 
 const aliases = {
   '@app': '../src/js',

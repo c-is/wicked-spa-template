@@ -7,33 +7,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %} | {{ project_name }}</title>
-    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">  -->
-    <meta name="description" content="{{ description }}" />
-    <meta name="keywords" content="{{ keywords }}" />
-    <meta name="author" content="{{ author }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Yugo Ito" />
+    <meta property="og:title" content="" />
+    <meta property="og:site_name" content=""/>
+    <meta property="og:url" content="" />
+    <meta property="og:description" content="" />
+    <meta property="article:author" content="https://yugoc89.worlders.co.uk" />
+    <meta property="article:publisher" content="https://yugoc89.worlders.co.uk" />
+    <meta property="og:image" content="" />
+    <meta property="og:locale" content="en_GB" /> 
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/style.css">
 
-    <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/assets/favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/assets/favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    <script type="application/ld+json">
-      {% block meta %}{% endblock %}
-    </script>
+    <script src="https://use.typekit.net/wyh1ore.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
   </head>
 
   <body class="body-{% block pageid %} {% endblock %} root">
@@ -46,17 +36,15 @@
       {% include 'components/_util-grid.html' %}
     {% endif %}
 
-    {% include 'components/_loader.html' %}
+    {% include 'layout/_loader.html' %}
     {% include 'components/_cursor.html' %}
+    {% include 'layout/_header.html' %}
 
-    {% include 'components/_header.html' %}
-    {% include 'components/_menu.html' %}
-
-    <div class="wrapper" id="wrapper" data-meta='{ "title": "{{ title }}", "description": "{{ description }}", "keywords": "{{ keyowrd }}" }'>
+    <div class="wrapper" id="wrapper">
       {% block content %} {% endblock %}
     </div>
 
-    {% include 'components/_footer.html' %}
+    {% include 'layout/_footer.html' %}
 
     {% block scripts %} {% endblock %}
   </body>

@@ -1,0 +1,59 @@
+/** @define collaboration */
+
+.collaboration {
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+  margin-top: 14rem;
+  color: var(--colour-font-secondary);
+  text-align: center;
+  border-top: 1px solid #fff;
+
+  @apply --grid;
+
+  @media (--screen-xs-max) {
+    display: block;
+    padding-top: 0;
+    padding-right: var(--content-space-mobile);
+    padding-left: var(--content-space-mobile);
+    margin-top: 160px;
+    border-top: 0;
+  }
+
+  &__inner {
+    grid-column-start: 1;
+    grid-column-end: 13;
+  }
+
+  &__title {
+    font-size: var(--fsize-h3);
+    font-weight: 300;
+
+    @media (--screen-xs-max) {
+      margin-bottom: 64px;
+      font-size: var(--fsize-h3-mobile);
+      line-height: 1.333;
+    }
+  }
+
+  &__footer {
+    margin-top: 80px;
+    margin-bottom: 0;
+    font-size: var(--fsize-xl);
+
+    @media (--screen-xs-max) {
+      font-size: var(--fsize-xl-mobile);
+    }
+  }
+
+  &__item {
+    display: inline-block;
+    margin: 0 17px;
+    font-size: 32px;
+
+    @media (--screen-xs-max) {
+      display: block;
+      margin: 0;
+      font-size: var(--fsize-xl-mobile);
+    }
+  }
+}

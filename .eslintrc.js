@@ -52,7 +52,7 @@ module.exports = {
         },
       },
       rules: {
-        semi: [2, 'never'],
+        // semi: [2, 'never'],
         'arrow-parens': [2, 'as-needed', { requireForBlockBody: false }],
         'import/no-extraneous-dependencies': 'off',
         'no-confusing-arrow': 0, // it's got an eslint bug for now

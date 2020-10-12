@@ -11,7 +11,6 @@ const {
 const openBrowser = require('react-dev-utils/openBrowser');
 const clearConsole = require('react-dev-utils/clearConsole');
 const task = require('./task');
-const config = require('./config');
 const webpackConfig = require('./webpack.config');
 const createDevServerConfig = require('./webpackDevServer.config');
 const pkg = require('../package.json');
@@ -22,14 +21,12 @@ const root = path.join(process.cwd(), 'static');
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const HOST = process.env.HOST || '0.0.0.0';
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
-const isVerbose = process.argv.includes('--verbose') || process.argv.includes('-v');
 const isInteractive = process.stdout.isTTY;
 global.HMR = !process.argv.includes('--no-hmr'); // Hot Module Replacement (HMR)
 
 // Build the app and launch it in a browser for testing via Browsersync
 module.exports = task('run', () => new Promise(resolve => {
   function reloadHtml() {
-    // console.log(this.hooks)
     this.hooks.compilation.tap('Trigger', compilation => {
       HtmlWebpackPlugin.getHooks(compilation).afterTemplateExecution.tapAsync(
         'Trigger',
@@ -38,17 +35,17 @@ module.exports = task('run', () => new Promise(resolve => {
         }
       )
     });
+
     const cache = {};
 
-    function trigger(data, callback) {
-      const orig = cache[data.outputName];
-      const html = data.html;
+    function trigger({ outputName, html }, callback) {
+      const orig = cache[outputName];
       // plugin seems to emit on any unrelated change?
       if (orig && orig !== html) {
         devServer.sockWrite(devServer.sockets, 'content-changed');
       }
 
-      cache[data.outputName] = html;
+      cache[outputName] = html;
 
       if (typeof callback === 'function') {
         callback();
@@ -89,7 +86,7 @@ module.exports = task('run', () => new Promise(resolve => {
 
   devServer = new WebpackDevServer(compiler, serverConfig);
 
-  compiler.plugin('done', stats => {
+  compiler.plugin('done', _stats => {
     devServer.listen(DEFAULT_PORT, HOST, err => {
       if (err) {
         return console.log(err);
@@ -110,55 +107,4 @@ module.exports = task('run', () => new Promise(resolve => {
       });
     });
   });
-
-  // let count = 0;
-  // const webpackConfig = require('./webpack.config');
-  // const compiler = webpack(webpackConfig);
-
-  // Node.js middleware that compiles application in watch mode with HMR support
-  // http://webpack.github.io/docs/webpack-dev-middleware.html
-
-  // const server = new WebpackDevServer(compiler, {
-  //   // contentBase: 'static',
-  //   contentBase: path.join(process.cwd(), 'static'),
-  //   host: HOST,
-  //   port: DEFAULT_PORT,
-  //   disableHostCheck: true,
-  //   hot: true,
-  //   open: true,
-  //   inline: true,
-  //   progress: true,
-  //   https: protocol === 'https',
-  //   historyApiFallback: true,
-  //   watchContentBase: true,
-  //   stats: {
-  //     colors: true,
-  //     hash: isVerbose,
-  //     version: isVerbose,
-  //     timings: false,
-  //     modules: false,
-  //     assets: false,
-  //     children: false,
-  //     chunks: isVerbose,
-  //     chunkModules: isVerbose,
-  //     cached: isVerbose,
-  //     cachedAssets: isVerbose,
-  //   },
-  //   before(app, server) {
-  //     devServer = server;
-  //   },
-  //   after: (app, server) => {
-  //     console.log(chalk.cyan('Starting the development server...\n'));
-  //   },
-  // });
-
-  //   compiler.plugin('done', stats => {
-  // 
-  //     count += 1;
-  //     if (count === 1) {
-  //       server.listen(3000, 'localhost');
-  //     }
-  // 
-  //     resolve();
-  //   });
 }));

@@ -1,8 +1,11 @@
+const pkg = require('../package.json');
+
 module.exports = {
-  title: '',
-  url: '',
-  project: '',
-  description: '',
-  keywords: '',
-  trackingID: 'UA-xxxxxxxx', // Google Analytics Site's ID
-}
+  title: pkg.title,
+  url: pkg.url,
+  project: pkg.name,
+  description: pkg.description,
+  keywords: pkg.keywords,
+  author: pkg.author,
+  trackingID: '',
+};

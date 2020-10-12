@@ -260,7 +260,7 @@ export default class ImageModal extends Component {
   activate(event) {
     event.preventDefault()
 
-    const { imageId, videoId } = event.currentTarget.dataset
+    const { imageId } = event.currentTarget.dataset
     this.imageId = Number(imageId) - 1
 
     document.body.classList.add('is-modal')

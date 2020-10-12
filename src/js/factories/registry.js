@@ -1,28 +1,29 @@
+import { browserDetect } from '@app/utils/global';
+
 const defaultStatus = {
   isLoaded: false,
   isAjaxActive: false,
   isMenuOpen: false,
   slug: null,
-  type: null,
   page: null,
   current: null,
   view: null,
   pagePosition: 0,
-}
+  isMobile: browserDetect().mobile,
+};
 
 const defaultGlobals = {
   w: window.innerWidth,
   h: window.innerHeight,
   doc: document.documentElement,
-}
+};
 
 const registry = {
   status: defaultStatus,
   globals: defaultGlobals,
   components: {},
   widgets: {},
-  mainImagePosition: 'centre',
-}
+};
 
 export default {
   registerWidget,
@@ -37,27 +38,27 @@ export default {
   registerGlobal,
   getGlobal,
   getGlobalAll,
-}
+};
 
 /**
  *  Widgets
  */
 
 export function registerWidget(widgetName, widget) {
-  registry.widgets[widgetName] = widget
+  registry.widgets[widgetName] = widget;
 }
 
 export function getWidget(widgetName) {
-  const widget = registry.widgets[widgetName]
+  const widget = registry.widgets[widgetName];
   if (!widget) {
-    console.error(`${widgetName} doesn't exist!`)
+    console.error(`${widgetName} doesn't exist!`);
   }
 
-  return registry.widgets[widgetName]
+  return registry.widgets[widgetName];
 }
 
 export function getWidgetAll() {
-  return registry.widgets
+  return registry.widgets;
 }
 
 
@@ -66,20 +67,20 @@ export function getWidgetAll() {
  */
 
 export function registerComponent(componentName, component) {
-  registry.components[componentName] = component
+  registry.components[componentName] = component;
 }
 
 export function resetComponent() {
-  registry.components = {}
+  registry.components = {};
 }
 
 export function getComponent(componentName) {
-  const component = registry.components[componentName]
+  const component = registry.components[componentName];
   if (!component) {
-    console.warn(`${componentName} doesn't exist!`)
+    console.warn(`${componentName} doesn't exist!`);
   }
 
-  return registry.components[componentName]
+  return registry.components[componentName];
 }
 
 
@@ -88,22 +89,22 @@ export function getComponent(componentName) {
  */
 
 export function registerStatus(statusName, condition) {
-  registry.status[statusName] = condition
+  registry.status[statusName] = condition;
 }
 
 export function registerStatusAll(statuses) {
   registry.status = {
     ...registry.status,
     ...statuses,
-  }
+  };
 }
 
 export function getStatus(statusName) {
-  return registry.status[statusName]
+  return registry.status[statusName];
 }
 
 export function getStatusAll() {
-  return registry.status
+  return registry.status;
 }
 
 
@@ -112,18 +113,18 @@ export function getStatusAll() {
  */
 
 export function registerGlobal(name, value) {
-  registry.globals[name] = value
+  registry.globals[name] = value;
 }
 
 export function getGlobal(name) {
-  const globalValue = registry.globals[name]
+  const globalValue = registry.globals[name];
   if (!globalValue) {
-    console.error(`${name} doesn't exist!`)
+    console.error(`${name} doesn't exist!`);
   }
 
-  return globalValue
+  return globalValue;
 }
 
 export function getGlobalAll() {
-  return registry.globals
+  return registry.globals;
 }

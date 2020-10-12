@@ -234,6 +234,48 @@ export default class Scroll extends Hanlder {
 
         break
 
+      case 'titleRight':
+        gsap.killTweensOf(item.el, { opacity: true, x: true })
+        gsap.fromTo(
+          item.el,
+          timing,
+          {
+            opacity: 0,
+            x: 40,
+          },
+          {
+            opacity: 1,
+            x: 0,
+            ease: 'circ.easeOut',
+            delay: 0.1,
+          },
+        )
+
+        item.el.classList.add('is-animated')
+
+        break
+
+      case 'titleLeft':
+        gsap.killTweensOf(item.el, { opacity: true, x: true })
+        gsap.fromTo(
+          item.el,
+          timing,
+          {
+            opacity: 0,
+            x: -40,
+          },
+          {
+            opacity: 1,
+            x: 0,
+            ease: 'circ.easeOut',
+            delay: 0.1,
+          },
+        )
+
+        item.el.classList.add('is-animated')
+
+        break
+
       case 'grow':
         gsap.killTweensOf(item.el, { opacity: true, y: true })
         gsap.fromTo(

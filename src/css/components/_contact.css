@@ -1,5 +1,46 @@
 /** @define contact */
 
 .contact {
+  display: flex;
+  height: 100vh;
 
+  @media (--screen-sm-min) {
+    display: block;
+    height: auto;
+  }
+
+  &__section {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    padding: calc(15vh + var(--header-height)) var(--space-m);
+    padding-left: var(--space-m-alt);
+
+    @media (--screen-sm-min) {
+      display: block;
+      width: 100%;
+      height: auto;
+      padding: var(--space-m-mobile);
+    }
+
+    &--form {
+      background-color: var(--colour-bg-secondary);
+    }
+
+    &--about {
+      padding-right: var(--space-m-alt);
+      padding-bottom: var(--header-height);
+      padding-left: var(--space-m);
+      background-color: var(--colour-bg);
+
+      @media (--screen-sm-min) {
+        padding-top: 120px;
+        padding-bottom: 6px;
+        color: var(--colour-font-contrast);
+        background-color: transparent;
+      }
+    }
+  }
+
+  &__inner { width: 100%; }
 }

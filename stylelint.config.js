@@ -52,7 +52,7 @@ module.exports = {
         const attribute = '(?:\\[.+\\])?'
         return new RegExp('^\\.' + componentName + element + modifier + attribute + '$')
       },
-      ignoreSelectors: /^\\.is-.+$/,
+      ignoreSelectors: /^\.is-.+/,
       utilitySelectors: '^\\.u-[a-z]+(?:-[a-zA-Z0-9]+)*+$',
     },
     // ===

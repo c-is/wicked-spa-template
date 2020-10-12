@@ -1,0 +1,58 @@
+/** @define hero */
+
+.hero {
+  position: relative;
+  grid-template-rows: repeat(12, minmax(auto, var(--grid-width)));
+  grid-row-gap: var(--gutter-space);
+  height: 100vh;
+
+  @apply --grid;
+
+  @media (--screen-xs-max) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--content-space-mobile);
+  }
+
+  &__arrow {
+    position: absolute;
+    right: 5rem;
+    bottom: 6%;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 3;
+    grid-row-start: 5;
+    grid-row-end: 9;
+    grid-column-start: 1;
+    grid-column-end: 13;
+  }
+
+  &__title {
+    width: 100%;
+    margin-top: 10vh;
+    font-weight: 500;
+    line-height: 1.125;
+    text-align: center;
+
+    @media (--screen-xs-max) {
+      margin-top: 0;
+    }
+  }
+
+  &__sub {
+    margin-right: 0.666rem;
+    font-family: var(--font-secondary);
+    font-size: 40px;
+    font-style: italic;
+    text-align: center;
+
+    @media (--screen-xs-max) {
+      margin-top: 12px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+  }
+}

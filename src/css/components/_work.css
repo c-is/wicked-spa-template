@@ -1,0 +1,139 @@
+@keyframes grain {
+  0%,
+  100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+/** @define work */
+
+.work {
+  margin-top: 320px;
+
+  @media (--screen-xs-max) {
+    margin-top: 160px;
+  }
+
+  &__title {
+    grid-column-start: 1;
+    grid-column-end: 13;
+  }
+
+  &__list {
+    position: relative;
+    z-index: 2;
+    grid-column-start: 1;
+    grid-column-end: 9;
+    font-family: var(--font-secondary);
+  }
+
+  &__item {
+    margin-bottom: 0.2em;
+    font-size: 56px;
+    line-height: 1.2;
+
+    @media (--screen-xs-max) {
+      display: flex;
+      flex-direction: column-reverse;
+      margin-bottom: 24px;
+      font-size: var(--fsize-l);
+      text-align: right;
+    }
+  }
+
+  &__dummy {
+    @media (--screen-xs-max) {
+      display: block;
+      height: 52.8vw;
+      background-color: #f0f0f0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 98%;
+    }
+  }
+
+  &__link {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+
+    @media (--screen-xs-max) {
+      margin-top: 10px;
+    }
+
+    &::before {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 10px;
+      content: '';
+      background-color: #fff;
+      transition: width 0.4s var(--ease-out-circ);
+    }
+
+    &:hover {
+      &::before { width: 100%; }
+    }
+  }
+}
+
+/** @define workDisplay */
+
+.workDisplay {
+  position: absolute;
+  top: 256px;
+  right: 198px;
+  bottom: 0;
+  justify-content: space-between;
+  width: calc((var(--grid-width) * 9) + (var(--gutter-space) * 9));
+  width: 888px;
+  height: 520px;
+  margin: auto;
+
+  @media (--screen-xs-max) {
+    @apply --hide;
+  }
+
+  &__image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+    opacity: 0;
+    transition: all 0.4s;
+
+    .is-loaded & {
+      opacity: 0.7;
+    }
+  }
+
+  &__text {
+    position: absolute;
+    right: 0;
+    bottom: -7.5vh;
+    z-index: 2;
+    font-size: 1.333rem;
+    font-style: italic;
+    color: #fff;
+    opacity: 0;
+    transition: all 0.4s;
+    transition-delay: 0.2s;
+    transform: translateY(40px);
+
+    .is-loaded & {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

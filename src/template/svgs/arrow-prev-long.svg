@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="8px" viewBox="0 0 60 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.1 (89650) - https://sketch.com -->
+    <title>arrow-next-long</title>
+    <desc>Created with Sketch.</desc>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(30.000000, 4.000000) scale(-1, 1) translate(-30.000000, -4.000000) " fill="currentColor" fill-rule="nonzero">
+            <path d="M59.3535,4.35355 C59.5488,4.15829 59.5488,3.84171 59.3535,3.64645 L56.1716,0.464466 C55.9763,0.269204 55.6597,0.269204 55.4645,0.464466 C55.2692,0.659728 55.2692,0.976311 55.4645,1.17157 L58.2929,4 L55.4645,6.82843 C55.2692,7.02369 55.2692,7.34027 55.4645,7.53553 C55.6597,7.7308 55.9763,7.7308 56.1716,7.53553 L59.3535,4.35355 Z M0,4.5 L59,4.5 L59,3.5 L0,3.5 L0,4.5 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

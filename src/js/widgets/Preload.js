@@ -1,4 +1,5 @@
 import imagesLoaded from 'imagesloaded'
+import axios from 'axios'
 
 import { getWidget, getStatus } from '@app/factories/registry'
 
@@ -6,17 +7,25 @@ import { getWidget, getStatus } from '@app/factories/registry'
 export default class Preload {
   loadingImages = null
 
-  onLoadVideo = () => (
+  onLoadVideo = video => (
     new Promise(resolve => {
-      const video = document.querySelector('.js-video')
-
       if (!video) {
         return resolve()
       }
 
-      return video.addEventListener('canplaythrough', () => {
-        resolve()
-      }, false)
+      const { src } = video.dataset
+
+      return axios.get(src)
+        .then(res => {
+          console.log(res)
+          if (res.status === 200) {
+            // const blob = res.data
+            // const source = URL.createObjectURL(blob);
+            video.src = src
+            // video.play()
+            resolve(video)
+          }
+        })
     })
   )
 
@@ -29,15 +38,15 @@ export default class Preload {
         const progress = Math.round(amount * 100)
         loader.onProgress(progress)
       }).on('always', async () => {
-        await this.onLoadVideo()
         resolve()
       })
     })
   }
 
-  onPreload() {
+  async onPreload() {
     const view = getStatus('view')
     const preloads = view.querySelectorAll('.js-preload')
+    const videos = view.querySelectorAll('.js-preload-video')
 
 
     const loadingImages = imagesLoaded(
@@ -50,6 +59,17 @@ export default class Preload {
 
     if (this.page) {
       images.concat(this.page.preloadImages())
+    }
+
+
+    if (videos.length > 0) {
+      const videoResults = []
+
+      for (const video of videos) {
+        videoResults.push(this.onLoadVideo(video))
+      }
+
+      const response = await Promise.all(videoResults)
     }
 
     // for (const page of this.pages) {

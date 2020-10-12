@@ -1,50 +1,22 @@
-import { gsap } from 'gsap'
-// import { browserDetect } from '../app/globals'
-import { TRANSITION_EASE, TRANSITION_TIMING, getColours } from '@app/constants'
-
-
-// const TIMING_IN = 0.4
-// const BG_TIMING_OUT = 1.2
-// const BG_TIMING_IN = 1.2
+import { gsap } from 'gsap';
+import { TRANSITION_EASE } from '@app/constants';
 
 
 export default class Animations {
-  tilt = null
-
-  bg = {
-    base: document.querySelector('.js-bg'),
-    innerLeft: document.querySelector('.js-bg-inner--left'),
-    innerRight: document.querySelector('.js-bg-inner--right'),
+  leave = async view => {
+    document.body.classList.add('is-load-start');
+    document.body.classList.remove('is-load-completed');
+    await gsap.to([view, '.footer'], 0.6, { opacity: 0, ease: TRANSITION_EASE });
   }
 
-  tiltEl = {
-    base: document.querySelectorAll('.js-tilt'),
-    image: document.querySelectorAll('.js-tilt-image'),
-  }
-
-  tiltInit() {
-    this.tiltEl = {
-      base: document.querySelectorAll('.js-tilt'),
-      image: document.querySelectorAll('.js-tilt-image'),
-    }
-
-    this.tilt = VanillaTilt.init(this.tiltEl.base)
-    this.tiltImage = VanillaTilt.init(this.tiltEl.image, { max: 3 })
-  }
-
-  leave = view => {
-    const ease = TRANSITION_EASE
-    return gsap.to(view, 0.4, { opacity: 0, ease })
-  }
-
-  enter = async ({ element, skipAnim }) => {
-    gsap.killTweensOf(element)
-    await gsap.to(element, skipAnim ? 0.4 : 0.6, { opacity: 1 })
-    gsap.set(element, { clearProps: 'all' })
+  enter = async (view, options = {}) => {
+    gsap.killTweensOf(view);
+    await gsap.to([view, '.footer'], options.skipAnim ? 0.4 : 1, { opacity: 1 });
+    gsap.set(view, { clearProps: 'all' });
+    document.body.classList.remove('is-load-start');
+    document.body.classList.add('is-load-completed');
   }
 
   destroy = () => {
-    this.tilt = null
-    this.tiltImage = null
   }
 }

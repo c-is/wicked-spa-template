@@ -1,7 +1,7 @@
 /** @define utilities */
 
 .u-pc {
-  @media (--screen-sm-max) {
+  @media (--screen-xs-max) {
     display: none !important;
   }
 }
@@ -12,28 +12,54 @@
   }
 }
 
-.u-tablet {
-  @media (--screen-sm-min) {
-    display: none !important;
-  }
-}
-
 .u-left { float: left; }
 .u-right { float: right; }
 
 .u-inner {
-  padding: 0 var(--space-m);
+  /*  max-width: var(--content-width-max);
+  padding: 0 var(--content-space);
+  margin-right: auto;
+  margin-left: auto;
 
-  @media (--screen-sm-max) {
-    padding: 0 var(--space-m-mobile);
+  @media (--screen-xs-max) {
+    padding: 0 var(--content-space-mobile);
+  } */
+
+  @apply --grid;
+
+  @media (--screen-xs-max) {
+    display: block;
+    padding-right: var(--content-space-mobile);
+    padding-left: var(--content-space-mobile);
   }
 }
 
-.u-inner-middle { top: center; }
+.u-description {
+  display: flex;
+  justify-content: space-between;
+
+  @media (--screen-xs-max) {
+    flex-direction: column;
+  }
+}
+
+.u-note {
+  /* display: inline-flex; */
+
+  &::before {
+    content: '※';
+    display: inline-block;
+  }
+}
 
 .u-first-letter {
-  font-weight: bold;
   font-size: 1.7em;
+  font-weight: bold;
+}
+
+.u-highlight {
+  padding: 2px;
+  background-color: var(--colour-primary-light);
 }
 
 .u-filter--blur { filter: blur(4px); }
@@ -44,12 +70,6 @@
   left: 0;
   width: 100%;
   transform: translateY(-50);
-}
-
-.u-flex-centre {
-  height: 100%;
-
-  @apply --flex-layout:
 }
 
 .u-grid-link {
@@ -70,7 +90,7 @@
 
 .u-text-larger {
   margin-bottom: 1.5rem;
-  font-size: 3.200rem;
+  font-size: 3.2rem;
   line-height: 1.125;
 }
 
@@ -99,8 +119,8 @@
   margin: 0;
   text-indent: -9999px;
   pointer-events: none;
-  opacity: 0;
   visibility: hidden;
+  opacity: 0;
 }
 
 .u-no-pad { padding: 0 !important; }
@@ -123,33 +143,13 @@
 .u-list-item-4 li { flex-basis: 25%; }
 .u-list-item-5 li { flex-basis: 20%; }
 
-.u-list {
-  padding: 0 var(--content-space);
-  text-align: left;
-
-  li {
-    margin-bottom: 0.666rem;
-
-    &::before {
-      display: inline;
-      margin-right: 8px;
-      content: "\e250";
-      font-family: Glyphicons Halflings;
-      font-size: 0.8rem;
-      color: var(--colour-red);
-      background-color: transparent;
-      border-radius: 0;
-    }
-  }
-}
-
 .u-clear {
   &::before {
     display: table;
     content: ' ';
   }
 
-  &:after {
+  &::after {
     display: table;
     clear: both;
     content: ' ';
@@ -163,7 +163,7 @@
 
   &::before {
     position: absolute;
-    bottom: 0.8em;
+    bottom: 0.5em;
     left: 0;
     width: 0;
     height: 2px;

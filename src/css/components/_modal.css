@@ -1,139 +1,108 @@
 /** @define modal */
 
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 11;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  padding: 10vh;
-  touch-action: pinch-zoom;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  z-index: 99;
 
-  @apply --hide;
-
-  @media (--screen-sm-max) {
-    padding: 0;
-    touch-action: pinch-zoom !important;
-    -webkit-user-drag: element !important;
+  @media (--screen-xs-max) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scaleY(0);
+    transform-origin: bottom;
   }
 
-  &__image {
-    z-index: 2;
-    max-height: 100%;
-
-    @media (--screen-sm-max) {
-      width: 100%;
-      object-fit: cover;
-    }
-  }
-
-  &__button {
+  &__content {
     position: absolute;
-    top: 24px;
-    right: 24px;
-    z-index: 10;
-    justify-self: center;
-    width: 2rem;
-    height: 2rem;
-    padding: 0;
-    margin-left: auto;
-    color: transparent;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    mix-blend-mode: difference;
+    z-index: 20 !important;
+    min-width: 414px;
+    color: var(--colour-font-contrast);
+    background-color: var(--colour-orange);
+    box-shadow: var(--shadow-l);
 
-    &::before,
-    &::after {
-      position: absolute;
-      left: 0;
+    @media (--screen-xs-max) {
+      position: relative;
+      top: 0 !important;
+      left: 0 !important;
       width: 100%;
-      height: 2px;
-      content: '';
-      background-color: var(--colour-font-contrast);
-      transition: transform 0.4s, color 0.4s;
+      min-width: 0;
+      height: 100%;
+      transform: none !important;
     }
+  }
 
-    &::before {
-      top: 0;
-      transform: rotate(45deg) translate(9px, 10px);
+  &__inner {
+    width: 100%;
+    height: 100%;
+    padding: 26px 36px;
+    word-break: break-word;
+
+    @media (--screen-xs-max) {
+      padding: var(--content-space-mobile);
     }
+  }
 
-    &::after {
-      bottom: 0;
-      transform: rotate(-45deg) translate(9px, -9px);
+  &__title {
+    font-size: var(--fsize-h4) !important;
+    font-weight: var(--fweight-bold);
+    line-height: 1.1;
+    white-space: pre;
+
+    @media (--screen-xs-max) {
+      white-space: normal;
     }
+  }
 
-    &:hover {
-      &::before,
-      &::after {
-        background-color: var(--colour-primary);
-      }
+  &__desc {
+    width: 414px;
+    min-width: 60%;
+
+    @media (--screen-xs-max) {
+      width: 100%;
+      min-width: 0;
     }
   }
 
   &__overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: -1;
+    z-index: 19;
     width: 100%;
     height: 100%;
-    background-color: #fff;
   }
 
-  &__nav {
+  &__close {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 2;
-    width: 4rem;
-    max-width: 64px;
-    height: 4rem;
-    max-height: 64px;
-    margin: auto;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    transition: transform 0.4s;
+    top: 20px;
+    right: 12px;
+    z-index: 21;
+    width: 24px;
+    height: 24px;
+    outline: none;
 
-    @media (--screen-sm-max) {
-      @apply --hide;
-    }
+    &::before,
+    &::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 60%;
+      height: 1px;
+      margin: auto;
+      content: '';
+      background-color: var(--colour-font);
 
-    &--left {
-      left: 5vw;
-      background-image: url(/assets/svgs/arrow-modal-left.svg);
-
-      @media (--screen-sm-max) {
-        left: 1vw;
+      @media (--screen-xs-max) {
+        width: 100%;
+        height: 2px;
+        background-color: var(--colour-font-contrast);
       }
-
-      &:hover { transform: translateX(-6px); }
     }
 
-    &--right {
-      right: 5vw;
-      background-image: url(/assets/svgs/arrow-modal-right.svg);
-
-      @media (--screen-sm-max) {
-        right: 1vw;
-      }
-
-      &:hover { transform: translateX(6px); }
-    }
-
-    &.is-hide {
-      @apply --hide;
-
-      pointer-events: none;
-    }
+    &::before { transform: rotate(45deg); }
+    &::after { transform: rotate(-45deg); }
   }
 }

@@ -3,15 +3,105 @@
 
 {% extends 'layout/_layout.html' %}
 
-{% set id = "home" %}
+{% block content %} 
+<main class="main main--home" id="main" role="main" data-namespace="home" data-page="home">
+  <article class="content content--home" id="content">
+    <div class="background">
+      <div class="js-background background__inner" data-component="Background"></div>
+    </div>
 
-{% block content %}
-<main class="main main--home" id="main" role="main" data-page="Home" data-namespace="home">
-  <article class="content content--home home">
+    <section class="section hero js-get-height">
+      <div class="hero__inner">
+        <h1 class="hero__title">Yugo Ito</h1>
+        <p class="hero__sub">Front-end developer <br class="u-mobile">& UI designer</p>
+        <i class="hero__arrow arrow arrow--down"></i>
+      </div>
+    </section>
 
+    <section class="section about">
+      <div class="about__inner u-inner">
+        <div class="about__image-container" data-parallax="200">
+          <div class="about__image-inner" data-animation="fadeUp">
+            <span class="about__gradation"></span>
+            <img class="about__image" src="{{ image_path }}/common/self-image1.jpg" alt="self image">
+            <img class="about__overlapped-image" src="{{ image_path }}/common/self-image2.png" alt="self image">
+          </div>
+        </div>
+
+        <p class="about__intro" data-animation="fadeIn">
+          I'm Yugo. <br>I’m a front-end developer/UI designer based in Warsaw.<br>Keep feeling fascination, yeah?
+        </p>
+
+        <div class="about__passions">
+          <h2 class="section-title is-right" data-animation="titleRight">My Passions<span class="section-glass"></span></h2>
+          <p data-animation="fadeIn">I’ve been working in the web industry for more than 7 years. Currently, I’m a freelancer taking design and web developing projects. I’m passionate at design and photography and am eager to gain more skills and experience through interacting with the culture and the people all over the world. </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work">
+      <div class="work__inner u-inner">
+        <h2 class="section-title work__title" data-animation="titleLeft">
+          Latest<br>Achievements<span class="section-glass section-glass--work"></span>
+        </h2>
+
+        <ul class="work__list js-work-list" data-animation="fadeIn">
+          <li class="work__item">
+            <a class="js-button-standard js-display-trigger js-ajax-trigger work__link" data-index="0" data-title="Worlder" data-background="{{ image_path }}/common/bg-main.jpg" data-text="Web creation" href="/posts">Worlder</a>
+            <span class="work__dummy js-preload" style="background-image: url({{ image_path }}/common/bg-main.jpg);"></span>
+          </li>
+          <li class="work__item">
+            <a class="js-button-standard js-display-trigger js-ajax-trigger work__link" data-index="1" data-title="SKK" data-background="{{ image_path }}/works/work-main_sun-platinum.jpg" data-text="Web creation" style="" href="">SKK</a>
+            <span class="work__dummy js-preload" style="background-image: url({{ image_path }}/works/work-main_sun-platinum.jpg);"></span>
+          </li>
+          <li class="work__item">
+            <a class="js-button-standard js-display-trigger js-ajax-trigger work__link" data-index="2" data-title="C is" data-background="{{ image_path }}/works/work-c_is.png" data-text="Web creation" href="">C is</a>
+            <span class="work__dummy js-preload" style="background-image: url({{ image_path }}/works/work-c_is.png);"></span>
+          </li>
+          <li class="work__item">
+            <a class="js-button-standard js-display-trigger js-ajax-trigger work__link" data-index="3" data-title="Jun - You are culture" data-background="{{ image_path }}/works/work-main_sun-platinum.jpg" data-text="Web development" href="">Jun - You are culture</a>
+            <span class="work__dummy js-preload" style="background-image: url({{ image_path }}/works/work-main_sun-platinum.jpg);"></span>
+          </li>
+          <li class="work__item">
+            <a class="js-button-standard js-display-trigger js-ajax-trigger work__link" data-index="4" data-title="Sun Platinum" data-background="{{ image_path }}/works/work-main_sun-platinum.jpg" data-text="Branding" href="">Sun Platinum</a>
+            <span class="work__dummy js-preload" style="background-image: url({{ image_path }}/works/work-main_sun-platinum.jpg);"></span>
+          </li>
+          <li class="work__item">
+            <a class="js-button-standard js-display-trigger js-ajax-trigger work__link" data-index="5" data-title="Y'z Films" data-background="{{ image_path }}/works/work-main_sun-platinum.jpg" data-text="Web application" href="">Y'z Films</a>
+            <span class="work__dummy js-preload" style="background-image: url({{ image_path }}/works/work-main_sun-platinum.jpg);"></span>
+          </li>
+        </ul>
+
+        <div class="workDisplay js-work-display">
+          <div
+            class="workDisplay__image js-work-image"
+            data-images='["{{ image_path }}/works/work-c_is.png","{{ image_path }}/works/work-main_sun-platinum.jpg","{{ image_path }}/works/work-main_worlder.jpg","{{ image_path }}/works/work-main_yukofujisawa.jpg"]'
+            data-component="Sketch"
+          >
+          </div>
+          <div class="workDisplay__text js-work-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section collaboration">
+      <div class="collaboration__inner">      
+        <h4 class="collaboration__title">I've been also working with</h4>
+
+        <ul class="collaboration__list">
+          <li class="collaboration__item">KPMG</li>
+          <li class="collaboration__item">Jack Wolfskin</li>
+          <li class="collaboration__item">KDDI</li>
+          <li class="collaboration__item">NTT Communications</li>
+          <li class="collaboration__item">SONY</li>
+          <li class="collaboration__item">Washington Post</li>
+        </ul>
+
+        <p class="collaboration__footer">and more</p>
+      </div>
+    </section>
   </article>
 </main>
-
 {% endblock %}
 
 {% block scripts %} 

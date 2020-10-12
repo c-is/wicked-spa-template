@@ -12,7 +12,7 @@ export default class Cursor {
   constructor() {
     this.cursor = document.body.querySelector('.js-cursor')
 
-    this.hoverElementsSelector = '.js-button-standard, [data-cursorSize="small"]'
+    this.hoverElementsSelector = '.js-button-standard, [data-size="small"]'
     this.lightElementsSelector = '.js-button-light, [data-theme="dark"]'
     this.arrowElementsSelector = '.js-button-arrows'
     this.crossElementsSelector = '.js-button-cross'
@@ -196,7 +196,7 @@ export default class Cursor {
     // Utils.setAttribute(this.cursor, 'arrows', false)
     Utils.setAttribute(this.cursor, 'expand', true)
 
-    if (e.target.dataset.cursorsize) {
+    if (e.target.dataset.size) {
       Utils.setAttribute(this.cursor, 'small', true)
     }
   }

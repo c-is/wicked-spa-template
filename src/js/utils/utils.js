@@ -1,3 +1,31 @@
+export function padZero(str, len) {
+  const modifiedLen = len || 2
+  const zeros = new Array(modifiedLen).join('0')
+  return (zeros + str).slice(-modifiedLen)
+}
+
+
+export const invertColor = hex => {
+  let h = hex
+
+  if (h.indexOf('#') === 0) {
+    h = h.slice(1)
+  }
+  // convert 3-digit hex to 6-digits.
+  if (h.length === 3) {
+    h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2]
+  }
+  if (h.length !== 6) {
+    throw new Error('Invalid HEX color.')
+  }
+  // invert color components
+  const r = (255 - parseInt(h.slice(0, 2), 16)).toString(16)
+  const g = (255 - parseInt(h.slice(2, 4), 16)).toString(16)
+  const b = (255 - parseInt(h.slice(4, 6), 16)).toString(16)
+  // pad each with zeros and return
+  return `#${padZero(r)}${padZero(g)}${padZero(b)}`
+}
+
 /**
  * Check if custom class exists.
  *

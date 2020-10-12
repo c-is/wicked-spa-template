@@ -1,0 +1,16 @@
+{% block pageid %}contact{% endblock %}
+{% block title %}contact{% endblock %}
+
+{% extends 'layout/_layout.html' %}
+
+{% set id = "contact" %}
+
+{% block content %}
+<main class="main main--contact" id="main" role="main" data-page="Contact" data-namespace="contact">
+  {% include 'components/_contact.html' %}
+</main>
+
+{% endblock %}
+
+{% block scripts %} 
+{% endblock %}

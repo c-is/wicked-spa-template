@@ -1,0 +1,13 @@
+/* @font-face {
+  font-family: 'MicrogrammaEF-BoldExt';
+  src:
+    url('/assets/fonts/MicrogrammaEF-BoldExt/font.woff2') format('woff2'),
+    url('/assets/fonts/MicrogrammaEF-BoldExt/font.woff') format('woff');
+}
+*/
+@font-face {
+  font-family: 'Red Collar';
+  src:
+    url('/assets/fonts/Redcollar/Redcollar.woff2') format('woff2'),
+    url('/assets/fonts/Redcollar/Redcollar.ttf') format('ttf');
+}

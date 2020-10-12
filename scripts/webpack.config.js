@@ -7,19 +7,14 @@ const globEntries = require('webpack-glob-folder-entries');
 const projectConfig = require('./config');
 const babelConfig = require('./babel.config');
 
-const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
-const HOST = process.env.HOST || '0.0.0.0';
-const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
+// const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
+// const HOST = process.env.HOST || '0.0.0.0';
+// const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
 const isDebug = global.DEBUG === false ? false : !process.argv.includes('production');
 const isProd = !isDebug
 const isVerbose = process.argv.includes('--verbose') || process.argv.includes('-v');
 const useHMR = !!global.HMR;
 
-// const babelConfig = {
-//   ...babel,
-//   babelrc: false,
-//   cacheDirectory: useHMR,
-// };
 
 console.log({ isDebug, useHMR, isVerbose, isProd });
 
@@ -30,7 +25,6 @@ const HtmlWebpackPluginConfig = globPath => {
   for (let folder in entries){
     if (entries[folder]) {
 
-      // const htmlPath = path.join(__dirname, entries[folder]);
       const filename = entries[folder].replace(path.join(process.cwd(), 'src/template/pages/'), '');
 
       const h = new HtmlWebpackPlugin({
@@ -51,7 +45,6 @@ function returnEntries(globPath) {
   const folderList = [];
   for (let folder in entries) {
     folderList.push(entries[folder]);
-     // folderList.push(path.join(__dirname, entries[folder]));
   }
 
   return folderList;
@@ -59,10 +52,8 @@ function returnEntries(globPath) {
 
 const config = {
   mode: isDebug ? 'development' : 'production',
-  // context: path.resolve(__dirname, './src'),
   context: path.join(process.cwd(), 'src'),
   entry: [
-    // path.resolve(__dirname, './src/js/index.js'),
     path.join(process.cwd(), 'src/js/index.js'),
   ],
 
@@ -105,7 +96,6 @@ const config = {
     }),
 
     new AssetsPlugin({
-      // path: path.resolve(__dirname, './build/assets/js'),
       path: path.join(process.cwd(), 'build/assets/js'),
       filename: 'assets.json',
       prettyPrint: true,
@@ -128,7 +118,6 @@ const config = {
       {
         test: /\.js?$/,
         include: [
-          // path.resolve(__dirname, './src/js'),
           path.join(process.cwd(), 'src/js'),
         ],
         loader: 'babel-loader',
@@ -138,7 +127,6 @@ const config = {
         {
           test: /\.css$/,
           include: [
-            // path.resolve(__dirname, './src/css'),
             path.join(process.cwd(), 'src/css'),
           ],
           exclude: /node_modules/,
@@ -159,7 +147,6 @@ const config = {
                 options: {
                   ident: 'postcss',
                   config: {
-                    // path: './postcss.config.js',
                     path: path.join(__dirname, 'postcss.config.js'),
                   },
                 },
@@ -170,7 +157,6 @@ const config = {
         {
           test: /\.css$/,
           include: [
-            // path.resolve(__dirname, './src/css'),
             path.join(process.cwd(), 'src/css'),
           ],
           exclude: /node_modules/,
@@ -189,7 +175,6 @@ const config = {
               options: {
                 ident: 'postcss',
                 config: {
-                  // path: './postcss.config.js',
                   path: path.join(__dirname, 'postcss.config.js'),
                 },
               },
@@ -205,6 +190,7 @@ const config = {
             context : {
              project_name: projectConfig.title,
              image_path: '/assets/images',
+             video_path: '/assets/videos',
              root_path: '',
              __DEV__: isDebug,
              ...projectConfig
@@ -250,7 +236,6 @@ if (!isDebug) {
 }
 
 if (isDebug && useHMR) {
-  // config.entry.unshift(`webpack-dev-server/client?${protocol}://${HOST}:${DEFAULT_PORT}`)
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
   config.plugins.push(new webpack.NoEmitOnErrorsPlugin());
 }

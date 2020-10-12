@@ -1,0 +1,72 @@
+{% block pageid %}post{% endblock %}
+{% block title %}post{% endblock %}
+
+{% extends 'layout/_layout.html' %}
+
+{% block content %} 
+<main class="main main--post" id="main" role="main" data-page="Worlder" data-namespace="post">
+  <header class="postHeader">
+    <a class="js-ajax-trigger js-button-standard postHeader__link" href="/">
+      {% include 'svgs/arrow-prev-long.svg' %}
+    </a>
+  </header>
+
+  <article class="content" id="content">
+    <section class="section post">
+      <header class="postTop u-inner">
+        <h1 class="postTop__title">Worlder</h1>
+        <p class="postTop__category">design/development</p>
+      </header>
+
+      <article class="postArticle">
+        <div class="postArticle__hero u-inner">
+          <p class="postArticle__desc">This is my blog site I often update about some cool places I’ve been to in the world. I used React and Flux in the front-end for the further expansion of the service and Contentful API for the back-end hosted on Amazon s3.<br>My aim is to gain a readability and, to do so, I removed all the unnecessary information to make it simple as much as possible.</p>
+
+          <div class="skillset" data-animation="fadeIn">
+            <div class="skillset__inner">
+              <p class="skillset__head">Used fonts</p>
+              <ul class="skillset__list">
+                <li class="skillset__item">Drogowskaz</li>
+                <li class="skillset__item">Marion</li>
+              </ul>
+            </div>
+            <div class="skillset__inner">
+              <p class="skillset__head">Techniques</p>
+              <ul class="skillset__list">
+                <li class="skillset__item">React.js</li>
+                <li class="skillset__item">Redux</li>
+                <li class="skillset__item">Webpack</li>
+                <li class="skillset__item">Contentful API</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="postArticle__desc u-inner">
+          <div class="postArticle__image" data-animation="fadeIn">
+            <img class="js-preload" src="{{ image_path }}/works/work-image_sunplatinum1.jpg" alt="Worlder">
+          </div>
+
+          <div class="postArticle__image" data-animation="fadeIn">
+            <img class="js-preload" src="{{ image_path }}/works/work-image_sunplatinum2.jpg" alt="Worlder">
+          </div>
+        </div>
+
+        <a href="" class="postArticle__link js-button-standard"><span>Go to the website</span></a>
+      </article>
+    </section>
+
+    <div class="nextPost" style="background-image: url({{ image_path }}/works/work-main_sun-platinum.jpg);">
+      <div class="nextPost__inner">
+        <p class="nextPost__head">Next project</p>
+        <h4 class="nextPost__title">Sun Platinum</h4>
+      </div>
+
+      <a class="js-ajax-trigger nextPost__link js-button-standard" data-title="Sun Platinum" href="/posts"></a>
+    </div>
+  </article>
+</main>
+{% endblock %}
+
+{% block scripts %} 
+{% endblock %}

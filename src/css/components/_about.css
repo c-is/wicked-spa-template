@@ -1,0 +1,85 @@
+/** @define about */
+
+.about {
+  position: relative;
+  margin-top: 320px;
+
+  @media (--screen-xs-max) {
+    margin-top: 80px;
+  }
+
+  &__inner {
+    position: relative;
+  }
+
+  &__intro {
+    position: relative;
+    z-index: 2;
+    grid-column-start: 4;
+    grid-column-end: 10;
+    margin-bottom: 560px;
+    font-size: var(--fsize-xl);
+
+    @media (--screen-xs-max) {
+      margin-bottom: 240px;
+      font-size: var(--fsize-l-mobile);
+    }
+  }
+
+  &__passions {
+    position: relative;
+    z-index: 4;
+    grid-column-start: 13;
+    grid-column-end: 4;
+    font-size: var(--fsize-xl);
+    text-align: right;
+
+    @media (--screen-xs-max) {
+      font-size: var(--fsize-l-mobile);
+    }
+  }
+
+  &__image-container {
+    position: absolute;
+    top: 33%;
+    left: var(--grid-margin);
+    width: 30rem;
+
+    @media (--screen-xs-max) {
+      @apply --hide;
+
+      position: relative;
+      top: -20vh;
+      left: 0;
+      width: 100%;
+    }
+  }
+
+  &__image {
+    width: 100%;
+  }
+
+  &__overlapped-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  &__gradation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    mix-blend-mode: overlay;
+    transition: 1s height;
+    transition-delay: 0.8s;
+
+    @apply --gradation;
+
+    .is-passed & {
+      height: 100%;
+    }
+  }
+}
